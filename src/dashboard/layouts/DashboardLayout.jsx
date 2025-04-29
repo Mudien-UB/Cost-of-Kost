@@ -17,7 +17,7 @@ export default function DashboardLayout({ children ,className}) {
         <SideBar toggleSidebar={toggleSidebar} />
         
           <main
-            className={`transition-all duration-300 flex-1 ${isSidebarOpen ? 'pl-64' : 'pl-16'} px-4 py-6 ${className}`}
+            className={`transition-all duration-300 flex-1 px-4 py-6 bg-blue-50  ${className}`}
           >
             {children}
           </main>
