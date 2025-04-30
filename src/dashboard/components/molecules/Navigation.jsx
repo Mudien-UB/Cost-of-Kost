@@ -7,9 +7,9 @@ export default function Navigation({ isOpen }) {
 
     const dashboardRoutes = [
         { route: '/finance-management', name: 'Manajemen Keuangan' },
-        { route: '/analitics', name: 'Analisa Keuangan' },
+        { route: '/finance-analitics', name: 'Analisa Keuangan' },
         { route: '/goal-saving', name: 'Target Tabungan' },
-        { route: '/budget-planner', name: 'Rencana Anggaran' },
+        { route: '/expenses-reminder', name: 'Pengingat Pengeluaran Rutin' },
     ]
 
     return (
