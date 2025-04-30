@@ -1,7 +1,6 @@
 import React from 'react';
-import { BiBell, BiNotification, BiUserCircle } from 'react-icons/bi';
+import { BiBell,BiUserCircle } from 'react-icons/bi';
 import { CgDarkMode } from 'react-icons/cg';
-import { IoMoonOutline } from 'react-icons/io5';
 import { useNavigate } from 'react-router';
 
 export default function Header() {
