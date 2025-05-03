@@ -2,6 +2,8 @@ import React from 'react'
 import {  Route, Routes } from 'react-router'
 import HeroPage from './pages/HeroPage';
 import NotFoundPage from '../pages/NotFoundPage';
+import AboutPage from './pages/AboutPage';
+import ContactPage from './pages/ContactPage';
 
 
 export default function LandingPageApp() {
@@ -10,6 +12,14 @@ export default function LandingPageApp() {
           path: '/',
           element: <HeroPage />
         },
+        {
+          path: '/about',
+          element: <AboutPage />
+        },
+        {
+          path: '/contact',
+          element: <ContactPage />
+        }
       ];
   return (
       <Routes>
