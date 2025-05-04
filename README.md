@@ -1,12 +1,45 @@
-# React + Vite
+# 🏠 Cost of Kost: EduSims
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+**EduSims** adalah aplikasi berbasis web yang dirancang untuk membantu mahasiswa dan pencari kost dalam merencanakan pengeluaran bulanan secara edukatif, interaktif, dan menyenangkan.
 
-Currently, two official plugins are available:
+> 🚧 **Status:** Proyek masih dalam tahap *development* (pengembangan). Fitur-fitur utama sedang dibangun dan akan terus diperbarui.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+---
 
-## Expanding the ESLint configuration
+## 🎯 Tujuan Aplikasi
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+Banyak mahasiswa dan anak kost kesulitan mengatur keuangan bulanan, terutama karena kurangnya edukasi finansial. EduSims hadir sebagai solusi yang:
+
+- Memfasilitasi simulasi biaya hidup di kost
+- Memberikan edukasi finansial secara ringan
+- Mendorong kebiasaan mencatat pengeluaran
+- Menyediakan statistik sederhana dan friendly
+
+---
+
+## 🛠️ Fitur yang Direncanakan
+
+- ✅ Tampilan responsif dan ramah pengguna  
+- ✅ Halaman *Hero*, *About*, dan *Contact*  
+- 🔄 Simulasi biaya kost harian, mingguan, bulanan  
+- 📊 Statistik keuangan dalam bentuk grafik  
+- 📋 Formulir input kebutuhan bulanan (makanan, laundry, listrik, dll)  
+- 🧠 Tips dan edukasi pengelolaan keuangan  
+
+> *Catatan: Beberapa fitur di atas masih dalam perencanaan dan tahap pengembangan.*
+
+---
+
+## 🧰 Teknologi yang Digunakan
+
+- **HTML5** & **TailwindCSS** – untuk tampilan UI modern dan responsif  
+- **JavaScript** *(planned)* – untuk interaksi dan simulasi data *(on progress)*  
+- **PHP** *(planned)* – untuk proses form dan backend sederhana  
+- **MySQL** *(planned)* – untuk menyimpan data pengguna dan simulasi  
+- **Chart.js / ApexCharts** *(planned)* – untuk visualisasi statistik keuangan  
+
+---
+Karena aplikasi masih dalam tahap HTML statis, kamu hanya perlu membuka file `index.html` di browser:
+
+```bash
+open index.html
