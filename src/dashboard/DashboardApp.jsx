@@ -41,7 +41,10 @@ export default function DashboardApp() {
     {
       path: '/home',
       redirectTo: <Navigate to="/dashboard/finance-management" /> 
-    },
+    },{
+      path: '*',
+      redirectTo: <Navigate to="/dashboard/finance-management" />
+    }
     
   ]
 
@@ -54,8 +57,6 @@ export default function DashboardApp() {
       {similarRoute.map((item, index) => (
         <Route key={index} path={item.path} element={item.redirectTo} />
       ))}
-
-      <Route path="*" element={<NotFoundPage navigate={"/dashboard/"} />} />
 
     </Routes>
   )

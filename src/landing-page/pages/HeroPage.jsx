@@ -23,14 +23,14 @@ export default function HeroPage() {
           <div className="mt-6 flex flex-col sm:flex-row gap-4 justify-center">
             <button
               type="button"
-              onClick={() => navigate('/register')}
+              onClick={() => navigate('/auth/register')}
               className="bg-gradient-to-r from-blue-600 to-blue-500 text-white px-6 py-3 rounded-lg shadow-md hover:brightness-110 transition duration-300"
             >
               Mulai Sekarang
             </button>
             <button
               type="button"
-              onClick={() => navigate('/login')}
+              onClick={() => navigate('/auth/login')}
               className="bg-white text-blue-600 border border-blue-500 px-6 py-3 rounded-lg shadow-md hover:bg-blue-50 transition duration-300"
             >
               Login

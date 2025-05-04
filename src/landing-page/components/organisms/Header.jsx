@@ -29,10 +29,10 @@ export default function Header() {
         <div className="hidden md:flex items-center space-x-6">
           <Navbar isOpen={true} onLinkClick={closeMenu} />
           <div className="flex items-center space-x-4 font-bold text-lg">
-            <button onClick={() => navigate('/login')} className="text-blue-900/50 hover:text-blue-600 hover:bg-blue-50 px-4 py-2 rounded-md transition-colors duration-200">
+            <button onClick={() => navigate('/auth/login')} className="text-blue-900/50 hover:text-blue-600 hover:bg-blue-50 px-4 py-2 rounded-md transition-colors duration-200">
               Login
             </button>
-            <button onClick={() => navigate('/register')} className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition-colors duration-200">
+            <button onClick={() => navigate('/auth/register')} className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition-colors duration-200">
               Sign Up
             </button>
           </div>
