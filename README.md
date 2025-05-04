@@ -1,45 +1,52 @@
-# 🏠 Cost of Kost: EduSims
+# 🏠 EduSims: Cost of Kost
 
-**EduSims** adalah aplikasi berbasis web yang dirancang untuk membantu mahasiswa dan pencari kost dalam merencanakan pengeluaran bulanan secara edukatif, interaktif, dan menyenangkan.
+![Status](https://img.shields.io/badge/status-development-orange)
+![License](https://img.shields.io/badge/license-academic--project-lightgrey)
+![Node.js](https://img.shields.io/badge/node-%3E%3D16.0.0-brightgreen)
+![PRs Welcome](https://img.shields.io/badge/PRs-welcome-blue)
 
-> 🚧 **Status:** Proyek masih dalam tahap *development* (pengembangan). Fitur-fitur utama sedang dibangun dan akan terus diperbarui.
+**EduSims** adalah aplikasi web interaktif yang dirancang untuk membantu mahasiswa dan pencari kost dalam merencanakan pengeluaran bulanan secara edukatif, sederhana, dan menyenangkan.
 
 ---
 
 ## 🎯 Tujuan Aplikasi
 
-Banyak mahasiswa dan anak kost kesulitan mengatur keuangan bulanan, terutama karena kurangnya edukasi finansial. EduSims hadir sebagai solusi yang:
+Banyak mahasiswa dan anak kost yang kesulitan mengatur keuangan bulanan, terutama karena kurangnya edukasi finansial. **EduSims** hadir untuk memberikan solusi yang:
 
-- Memfasilitasi simulasi biaya hidup di kost
-- Memberikan edukasi finansial secara ringan
-- Mendorong kebiasaan mencatat pengeluaran
-- Menyediakan statistik sederhana dan friendly
+- 🧮 Memfasilitasi simulasi biaya hidup di kost  
+- 🎓 Memberikan edukasi finansial secara ringan dan interaktif  
+- ✍️ Mendorong kebiasaan mencatat pengeluaran  
+- 📊 Menyediakan statistik yang sederhana dan user-friendly  
 
 ---
 
 ## 🛠️ Fitur yang Direncanakan
 
-- ✅ Tampilan responsif dan ramah pengguna  
-- ✅ Halaman *Hero*, *About*, dan *Contact*  
-- 🔄 Simulasi biaya kost harian, mingguan, bulanan  
-- 📊 Statistik keuangan dalam bentuk grafik  
-- 📋 Formulir input kebutuhan bulanan (makanan, laundry, listrik, dll)  
+- 📋 Formulir input pengeluaran dan pemasukan  
+- 📈 Statistik dan analisis keuangan secara visual  
+- 🔄 Simulasi biaya kost harian, mingguan, dan bulanan  
 - 🧠 Tips dan edukasi pengelolaan keuangan  
 
-> *Catatan: Beberapa fitur di atas masih dalam perencanaan dan tahap pengembangan.*
+> ⚠️ *Catatan: Beberapa fitur masih dalam tahap perencanaan dan pengembangan.*
 
 ---
 
-## 🧰 Teknologi yang Digunakan
+## 🚀 Cara Menjalankan Proyek
 
-- **HTML5** & **TailwindCSS** – untuk tampilan UI modern dan responsif  
-- **JavaScript** *(planned)* – untuk interaksi dan simulasi data *(on progress)*  
-- **PHP** *(planned)* – untuk proses form dan backend sederhana  
-- **MySQL** *(planned)* – untuk menyimpan data pengguna dan simulasi  
-- **Chart.js / ApexCharts** *(planned)* – untuk visualisasi statistik keuangan  
-
----
-Karena aplikasi masih dalam tahap HTML statis, kamu hanya perlu membuka file `index.html` di browser:
+Pastikan kamu sudah menginstal **Node.js** minimal versi `16.x`.
 
 ```bash
-open index.html
+git clone https://github.com/Mudien-UB/Cost-of-Kost.git
+
+cd Cost-of-Kost
+
+git switch ubay-dev
+
+npm install
+
+npm run dev
+```
+
+## 📜 Disclaimer
+> ⚠️ Proyek ini merupakan tugas kelompok dalam rangka perkuliahan.
+> Tidak diperkenankan menggunakan, memodifikasi, atau mendistribusikan ulang tanpa izin dari semua anggota tim yang bersangkutan.
