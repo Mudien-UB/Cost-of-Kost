@@ -2,8 +2,6 @@
 
 ![Status](https://img.shields.io/badge/status-development-orange)
 ![License](https://img.shields.io/badge/license-academic--project-lightgrey)
-![Node.js](https://img.shields.io/badge/node-%3E%3D16.0.0-brightgreen)
-![PRs Welcome](https://img.shields.io/badge/PRs-welcome-blue)
 
 **EduSims** adalah aplikasi web interaktif yang dirancang untuk membantu mahasiswa dan pencari kost dalam merencanakan pengeluaran bulanan secara edukatif, sederhana, dan menyenangkan.
 
