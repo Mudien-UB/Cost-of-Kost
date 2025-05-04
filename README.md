@@ -38,8 +38,6 @@ git clone https://github.com/Mudien-UB/Cost-of-Kost.git
 
 cd Cost-of-Kost
 
-git switch ubay-dev
-
 npm install
 
 npm run dev
