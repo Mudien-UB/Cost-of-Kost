@@ -31,10 +31,10 @@ export default function Header() {
           <div className="flex items-center space-x-4 font-bold text-lg">
             
             <button onClick={() => navigate('/auth/register')} className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition-colors duration-200">
-              Sign Up
+              Daftar
             </button>
             <button onClick={() => navigate('/auth/login')} className="text-blue-900/50 hover:text-blue-600 hover:bg-blue-50 px-4 py-2 rounded-md transition-colors duration-200">
-              Login
+              Masuk
             </button> 
           </div>
         </div>

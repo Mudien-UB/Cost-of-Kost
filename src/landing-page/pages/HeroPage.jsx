@@ -28,7 +28,7 @@ export default function HeroPage() {
               onClick={() => navigate('/auth/login')}
               className="bg-white text-blue-600 border border-blue-500 px-6 py-3 rounded-lg shadow-lg hover:bg-blue-50 transition duration-300"
             >
-              Login
+              Masuk
             </button>
           </div>
         </div>
