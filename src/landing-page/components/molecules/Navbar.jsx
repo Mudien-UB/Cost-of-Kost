@@ -3,9 +3,9 @@ import { NavLink } from 'react-router';
 
 export default function Navbar({ isOpen, onLinkClick }) {
   const navItems = [
-    { name: 'Home', path: '/' },
-    { name: 'About', path: '/about' },
-    { name: 'Contact', path: '/contact' },
+    { name: 'Beranda', path: '/' },
+    { name: 'Tentang', path: '/about' },
+    { name: 'Kontak', path: '/contact' },
   ];
 
   return (

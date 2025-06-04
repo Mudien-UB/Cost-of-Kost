@@ -48,6 +48,11 @@ export default function DashboardApp() {
     
   ]
 
+  const token = localStorage.getItem('token');
+  if (!token) {
+    return <Navigate to="/login" />
+  }
+
   return (
     <Routes>
       {route.map((item, index) => (
