@@ -1,6 +1,7 @@
 import React from 'react';
 export default function FormRegister({ onSubmit, loading }) {
     const [formData, setFormData] = React.useState({
+      name: '',
       username: '',
       email: '',
       password: '',
@@ -23,6 +24,20 @@ export default function FormRegister({ onSubmit, loading }) {
   
     return (
       <form className="space-y-6" onSubmit={handleSubmit}>
+        <div>
+            <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-2">
+              Full Name
+            </label>
+            <input
+              type="text"
+              name="name"
+              required
+              value={formData.name}
+              onChange={handleChange}
+              placeholder="Enter your full name"
+              className="w-full mt-1 block px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo sm:text-sm"
+            />
+          </div>
           <div>
             <label htmlFor="username" className="block text-sm font-medium text-gray-700 mb-2">
               Username
