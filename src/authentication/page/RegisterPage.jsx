@@ -1,36 +1,52 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import FormRegister from '../components/FormRegister';
 import { useNavigate } from 'react-router';
+import { useAuth } from '../hooks/useAuth'; // pastikan path ini benar
 
 export default function RegisterPage() {
-  const [status, setStatus] = React.useState(null); // 'loading', 'success', 'error'
-  const [error, setError] = React.useState('');
+  const { register, status, errorMsg, resetStatus } = useAuth();
   const navigate = useNavigate();
+  const [error, setError] = useState(null);
 
-  const handleRegister = (data) => {
-    setStatus('loading');
-    setError('');
+  const handleRegister = async (data) => {
+    setError(null);
+    resetStatus(); // reset status sebelumnya
 
-    // Simple validation
+    // Validasi sederhana
     if (data.password !== data.confirmPassword) {
-      setStatus('error');
       setError('Passwords do not match');
       return;
     }
 
     if (!data.termsAccepted) {
-      setStatus('error');
       setError('You must agree to the terms');
       return;
     }
 
-    // Simulasi registrasi
-    setTimeout(() => {
-      setStatus('success');
-      console.log('User registered:', data);
-      navigate('/dashboard');
-    }, 2000);
+    try {
+      await register({
+        name: data.name,
+        username: data.username,
+        email: data.email,
+        password: data.password,
+      });
+    } catch (err) {
+      console.error(err);
+    }
   };
+
+  useEffect(() => {
+      if (status === "success") {
+          const timer = setTimeout(() => {
+              resetStatus();
+              navigate("/dashboard");
+          }, 2000);
+          
+          return () => clearTimeout(timer);
+      
+      }
+      console.log("Status:", status);
+    }, [status, navigate, resetStatus]);
 
   return (
     <section className="flex items-center justify-center min-h-screen bg-blue-100">
@@ -48,9 +64,10 @@ export default function RegisterPage() {
 
         <FormRegister onSubmit={handleRegister} loading={status === 'loading'} />
 
-        {status === 'error' && (
-          <p className="text-sm text-red-500 mt-4">{error}</p>
+        {(error || errorMsg) && (
+          <p className="text-sm text-red-500 mt-4">{error || errorMsg}</p>
         )}
+
         {status === 'success' && (
           <div className="fixed inset-0 z-10 flex items-center justify-center bg-white/80 backdrop-blur-md">
             <div className="text-center p-6 bg-white rounded-lg shadow-md">

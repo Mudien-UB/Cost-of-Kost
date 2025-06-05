@@ -1,42 +1,59 @@
 import { useState, useCallback } from "react";
-
+import { authApi } from "../../api/backend/authApi";
 
 export const useAuth = () => {
-  const [status, setStatus] = useState("idle"); // idle | loading | success | error
+  const [status, setStatus] = useState("idle"); 
   const [errorMsg, setErrorMsg] = useState(null);
 
-  const login = useCallback(({ emailOrUsername, password }) => {
+  const login = useCallback(async ({ emailOrUsername, password }) => {
     setStatus("loading");
     setErrorMsg(null);
 
-    setTimeout(() => {
-      if (emailOrUsername && password) {
-        const username = emailOrUsername.includes("@")
-          ? emailOrUsername.split("@")[0]
-          : emailOrUsername;
+    try {
+      const response = await authApi.login(emailOrUsername, password);
+      const { user, access_token } = response.data.data;
 
-        const userId = Math.random().toString(36).substring(2, 15);
-        const token = "fake-token";
+      localStorage.setItem("user", JSON.stringify(user));
+      localStorage.setItem("token", access_token);
 
-        const user = {
-          userId,
-          username,
-        };
-        localStorage.setItem("user", JSON.stringify(user));
-        localStorage.setItem("token", token);
-
-        setStatus("success");
-      } else {
-        setStatus("error");
-        setErrorMsg("Invalid email or password");
-      }
-    }, 1500);
+      setStatus("success");
+    } catch (error) {
+      setStatus("error");
+      setErrorMsg(
+        error.response?.data?.message || "Login failed, please try again"
+      );
+    }
   }, []);
 
-  const logout = useCallback(() => {
+  const register = useCallback(async ({ name, username, email, password }) => {
+    setStatus("loading");
+    setErrorMsg(null);
+
+    try {
+      const response = await authApi.register(name, username, email, password);
+      const { user, access_token } = response.data.data;
+
+      localStorage.setItem("user", JSON.stringify(user));
+      localStorage.setItem("token", access_token);
+
+      setStatus("success");
+    } catch (error) {
+      setStatus("error");
+      setErrorMsg(
+        error.response?.data?.message || "Register failed, please try again"
+      );
+    }
+  }, []);
+
+  const logout = useCallback(async () => {
+    try {
+      await authApi.logout();
+    } catch (error) {
+      console.error("Logout failed:", error);
+    }
+
     localStorage.removeItem("user");
     localStorage.removeItem("token");
-
   }, []);
 
   const resetStatus = useCallback(() => {
@@ -46,6 +63,7 @@ export const useAuth = () => {
 
   return {
     login,
+    register,
     logout,
     status,
     errorMsg,
