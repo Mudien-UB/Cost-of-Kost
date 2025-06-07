@@ -1,20 +1,34 @@
-import  axiosInstance  from "../axiosInstance";
+import axiosInstance from "../axiosInstance";
 
-const login = async (email, password) => {
-    return await axiosInstance.post('/auth/login', { email, password });
-}
-
-const register = async (name, username, email, password) => {
-    return await axiosInstance.post('/auth/register', {name, username, email, password});
-    
+const login = (email, password) => {
+    return axiosInstance.post('/auth/login', { email, password })
+        .then(response => response)
+        .catch(error => {
+            console.error('Login error:', error?.message);
+            throw error || new Error("Something Wrong"); 
+        });
 };
 
-const logout = async () => {
-    return await axiosInstance.post('/users/logout');
-}
+const register = (name, username, email, password) => {
+    return axiosInstance.post('/auth/register', { name, username, email, password })
+        .then(response => response)
+        .catch(error => {
+            console.error('Register error:', error?.message);
+            throw error || new Error("Something Wrong");
+        });
+};
+
+const logout = () => {
+    return axiosInstance.post('/users/logout')
+        .then(response => response)
+        .catch(error => {
+            console.error('Logout error:', error?.message);
+            throw error || new Error("Something Wrong");
+        });
+};
 
 export const authApi = {
     login,
     register,
     logout
-}
+};
