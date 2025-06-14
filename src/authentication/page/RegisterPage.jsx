@@ -25,7 +25,7 @@ export default function RegisterPage() {
 
     try {
       await register({
-        name: data.name,
+        fullName: data.fullName,
         username: data.username,
         email: data.email,
         password: data.password,

@@ -1,15 +1,30 @@
-import React from 'react'
-import { Navigate, Route, Routes } from 'react-router'
-import NotFoundPage from '../pages/NotFoundPage';
-import DashboardLayout from './layouts/DashboardLayout';
+import React, { useEffect, useState } from 'react'
+import { Navigate, Route, Routes, useNavigate } from 'react-router'
 import FinanceManagementPage from './pages/FinanceManagementPage';
 import FinanceAnalistPage from './pages/FinanceAnalistPage';
 import SavingTargetPage from './pages/SavingTargetPage';
 import ExpensesReminderPage from './pages/ExpensesReminderPage';
 import FinanceRecordingPage from './pages/FinanceRecordingPage';
+import { useAuth } from '../authentication/hooks/useAuth';
 
 
 export default function DashboardApp() {
+
+
+  const { whoAmI, status, errorMsg, resetStatus } = useAuth();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+  const checkAuth = async () => {
+    await whoAmI();
+    if (status === "success") {
+      navigate('/auth/login');
+    }
+    resetStatus();
+  };
+  checkAuth();
+}, [status]);
+
 
   const route = [
     {
@@ -50,7 +65,7 @@ export default function DashboardApp() {
 
   const token = localStorage.getItem('token');
   if (!token) {
-    return <Navigate to="/login" />
+    return <Navigate to="/auth/login" />
   }
 
   return (
