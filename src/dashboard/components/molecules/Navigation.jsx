@@ -6,6 +6,7 @@ const BASE_ROUTE = '/dashboard'
 export default function Navigation({ isOpen }) {
 
     const dashboardRoutes = [
+        { route: '/recording', name: 'Pencatatan Keuangan'},
         { route: '/finance-management', name: 'Manajemen Keuangan' },
         { route: '/finance-analitics', name: 'Analisa Keuangan' },
         { route: '/goal-saving', name: 'Target Tabungan' },
