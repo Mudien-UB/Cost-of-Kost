@@ -14,13 +14,13 @@ export default function DashboardApp() {
   const { whoAmI, resetStatus } = useAuth();
   const navigate = useNavigate();
 
-  const token = localStorage.getItem('token');
+ 
 
   useEffect(() => {
-  const checkAuth = async () => {
+  const checkAuth = async (tokenAuth) => {
     try {
 
-      if(token){
+      if(tokenAuth){
         await whoAmI();
       }else{
         navigate('/auth/login');
@@ -33,8 +33,9 @@ export default function DashboardApp() {
       resetStatus();
     }
   };
+   const token = localStorage.getItem('token');
 
-  checkAuth();
+  checkAuth(token);
 }, []);
 
 

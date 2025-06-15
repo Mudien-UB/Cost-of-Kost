@@ -11,10 +11,9 @@ export default function TransactionHistories({ data, title ,type = 'expense'}) {
                     <>
                         {data.map((item, index) => (
                             <ListContainer
-                                key={index}
+                                key={item.id}
                                 index={index + 1}
                                 className="border-b border-blue-100 hover:bg-blue-50 transition-colors"
-                                OnEdit={() => console.log('Edit', item.id)}
                                 OnDelete={() => console.log('Delete', item.id)}
                             >
                                 <div className="grid grid-cols-2">
