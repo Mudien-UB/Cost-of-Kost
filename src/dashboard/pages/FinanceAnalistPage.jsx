@@ -44,7 +44,7 @@ export default function FinanceAnalystPage() {
   const fetchExpensesData = async () => {
     try {
       const response = await getListExpense(requestParam);
-      setExpensesData(response);
+      setExpensesData(response.content);
       setExpenseError(null);
     } catch (err) {
       setExpenseError(errorMessage || "Failed to load expense data");
@@ -57,7 +57,7 @@ export default function FinanceAnalystPage() {
     try {
       const response = await getListIncome(requestParam);
       console.log(response)
-      setIncomesData(response);
+      setIncomesData(response.content);
       setIncomeError(null);
     } catch (err) {
       setIncomeError(errorMessage || "Failed to load income data");

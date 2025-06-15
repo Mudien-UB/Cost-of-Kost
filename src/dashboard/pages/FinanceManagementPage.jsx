@@ -16,6 +16,7 @@ const dummyData = {
 export default function FinanceManagementPage() {
   const [error, setError] = useState(null);
   const [listExpenses, setListExpenses] = useState([]);
+  const [totalDailyExpense, setTotalDailyExpense] = useState(0.0);
 
   const navigate = useNavigate();
 
@@ -35,7 +36,8 @@ export default function FinanceManagementPage() {
           to: new Date().toISOString().split('T')[0]
         });
         if (resData) {
-          setListExpenses(resData);
+          setListExpenses(resData.content);
+          setTotalDailyExpense(resData.content.reduce((acc, item) => acc + item.amount, 0))
         }
       } catch (err) {
         setError(errorMessage);
@@ -45,11 +47,10 @@ export default function FinanceManagementPage() {
     };
 
     getExpense();
+    
     console.log(listExpenses)
   }, []);
 
-  // contoh hitung data untuk summary
-  const totalDailyExpense = dummyData.monthlyExpenses / 30;
   const savingPercentage = ((dummyData.monthlyIncome - dummyData.monthlyExpenses) / dummyData.monthlyIncome) * 100;
   const financeHealthScore = Math.min(100, (dummyData.totalSavingMonthly / dummyData.monthlyIncome) * 10);
 

@@ -42,7 +42,7 @@ export default function useFinance() {
             setLoading(true);
             const response = await incomeApi.getPage({from, to, sortBy, page, size ,asc});
             setStatus('success');
-            return response.data?.content;
+            return response.data;
         } catch (err) {
             setStatus('error');
             setErrorMessage(err.response?.data?.message || "Failed to get income data");
@@ -58,7 +58,7 @@ export default function useFinance() {
             const response = await expenseApi.getPage({from, to, sortBy, page, size ,asc});
             console.log(response.data)
             setStatus('success');
-            return response.data?.content;
+            return response.data;
         } catch (err) {
             setStatus('error');
             setErrorMessage(err.response?.data?.message || "Failed to get expense data");
