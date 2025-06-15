@@ -1,21 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import DashboardLayout from '../layouts/DashboardLayout';
-import CardContainer from '../components/molecules/CardContainer';
 import TransactionHistories from '../components/organisms/TransactionHistories';
 import SummarizeFinance from '../components/organisms/SummarizeFinance';
-
-const initialDailyData = [
-  { id: 1, date: '2023-10-01 10:10', title: 'Ngopi', amount: 10000, category: 'Jajan' },
-  { id: 2, date: '2023-10-01 10:10', title: 'Sarapan', amount: 30000, category: 'Makan' },
-  { id: 3, date: '2023-10-01 10:10', title: 'Bensin', amount: 150000, category: 'Transportasi' },
-  { id: 4, date: '2023-10-01 10:10', title: 'Tolak Angin', amount: 10000, category: 'Kesehatan' },
-  { id: 5, date: '2023-10-01 10:10', title: 'Alat Mandi', amount: 25000, category: 'Belanja' },
-  { id: 6, date: '2023-10-01 10:10', title: 'Sabun Cuci', amount: 15000, category: 'Belanja' },
-  { id: 7, date: '2023-10-01 10:10', title: 'Makan Siang', amount: 50000, category: 'Makan' },
-  { id: 8, date: '2023-10-01 10:10', title: 'Ngemil', amount: 10000, category: 'Jajan' },
-  { id: 9, date: '2023-10-01 10:10', title: 'Minum', amount: 5000, category: 'Jajan' },
-  { id: 10, date: '2023-10-01 10:10', title: 'Gorengan', amount: 5000, category: 'Jajan' },
-];
+import useFinance from '../hooks/useFinance';
+import { useNavigate } from 'react-router';
+import ListContainer from '../components/molecules/ListContainer';
+import { BiChevronsRight } from 'react-icons/bi';
 
 const dummyData = {
   monthlyExpenses: 2500000,
@@ -24,53 +14,45 @@ const dummyData = {
 };
 
 export default function FinanceManagementPage() {
-  const [dailyData, setDailyData] = useState(initialDailyData);
-  const [dailyExpense, setDailyExpense] = useState(0);  
-  const [monthlyIncome, setMonthlyIncome] = useState(0);
-  const [monthlyExpenses, setMonthlyExpenses] = useState(0);
-  const [totalSaving, setTotalSaving] = useState(0);
-  const [savingPercentage, setSavingPercentage] = useState(0);
-  const [financeHealthScore, setFinanceHealthScore] = useState(0.0);
-  const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [listExpenses, setListExpenses] = useState([]);
+  const [totalDailyExpense, setTotalDailyExpense] = useState(0.0);
 
-  const fetchData = () => {
-    setIsLoading(true);
-    setError(null);
+  const navigate = useNavigate();
 
-    setTimeout(() => {
-      const simulateError = false;
-      if (simulateError) {
-        setError('Gagal mengambil data keuangan.');
-        setIsLoading(false);
-      } else {
-        const updatedDailyExpense = dailyData.reduce((total, item) => total + item.amount, 0);
-        setDailyExpense(updatedDailyExpense);
-        setMonthlyExpenses(dummyData.monthlyExpenses + updatedDailyExpense);
-        setMonthlyIncome(dummyData.monthlyIncome);
-        setTotalSaving(dummyData.totalSavingMonthly);
-        setIsLoading(false);
+  const {
+    loading,
+    errorMessage,
+    resetStatus,
+    getListExpense
+  } = useFinance();
+
+  useEffect(() => {
+    const getExpense = async () => {
+
+      try {
+        const resData = await getListExpense({
+          from: new Date().toISOString().split('T')[0],
+          to: new Date().toISOString().split('T')[0]
+        });
+        if (resData) {
+          setListExpenses(resData.content);
+          setTotalDailyExpense(resData.content.reduce((acc, item) => acc + item.amount, 0))
+        }
+      } catch (err) {
+        setError(errorMessage);
+      } finally {
+        resetStatus();
       }
-    }, 1000);
-  };
+    };
 
-  useEffect(() => {
-    fetchData();
-  }, [dailyData]);
+    getExpense();
+    
+    console.log(listExpenses)
+  }, []);
 
-  useEffect(() => {
-    if (monthlyIncome > 0 && monthlyExpenses >= 0) {
-      const savingRatio = totalSaving / monthlyIncome;
-      const surplusRatio = (monthlyIncome - monthlyExpenses) / monthlyIncome;
-      const savingPercent = surplusRatio * 100;
-      setSavingPercentage(savingPercent);
-
-      const averageRatio = (savingRatio + surplusRatio) / 2;
-      const normalizedScore = (averageRatio / 2) * 10;
-      const finalScore = Math.max(1, Math.min(normalizedScore, 10));
-      setFinanceHealthScore(finalScore);
-    }
-  }, [monthlyIncome, monthlyExpenses, totalSaving]);
+  const savingPercentage = ((dummyData.monthlyIncome - dummyData.monthlyExpenses) / dummyData.monthlyIncome) * 100;
+  const financeHealthScore = Math.min(100, (dummyData.totalSavingMonthly / dummyData.monthlyIncome) * 10);
 
   return (
     <DashboardLayout className="pt-16 min-h-screen">
@@ -78,13 +60,13 @@ export default function FinanceManagementPage() {
 
         <section className="w-full">
           <SummarizeFinance
-            isLoading={isLoading}
+            isLoading={loading}
             error={error}
-            dailyExpense={dailyExpense}
-            monthlyIncome={monthlyIncome}
+            dailyExpense={totalDailyExpense}
+            monthlyIncome={dummyData.monthlyIncome}
             savingPercentage={savingPercentage}
             financeHealthScore={financeHealthScore}
-            />
+          />
         </section>
 
         <section className='w-full'>
@@ -100,8 +82,51 @@ export default function FinanceManagementPage() {
           </div>
         </section>
 
-        <section className='w-full'>
-          <TransactionHistories data={dailyData} />
+        <section className='bg-white px-6 py-5 mt-6 shadow-md rounded-2xl w-full mx-auto'>
+          <h1 className="text-2xl text-center font-bold text-blue-900/70 mb-4">Pengeluaran hari ini</h1>
+          <div className="flex flex-col gap-1 mt-2 border-t-2 border-blue-900/20 w-full rounded-md inset-shadow-sm inset-shadow-blue-950/10">
+            {Array.isArray(listExpenses) && listExpenses.length > 0 ? (
+              <>
+                {listExpenses.map((item, index) => (
+                  <ListContainer
+                    key={item.id}
+                    index={index + 1}
+                    className="border-b border-blue-100 hover:bg-blue-50 transition-colors"
+                    OnDelete={() => console.log('Delete', item.id)}
+                  >
+                    <div className="grid grid-cols-2">
+                      <div className="flex p-0 items-center gap-10">
+                        <h1 className="text-lg font-bold text-blue-900/60">{item.expenseDate}</h1>
+                        <div>
+                          <h3 className="text-lg font-bold text-blue-900/60">{item.reason}</h3>
+                          <p className="text-sm font-bold text-blue-900/50">{item.categoryName}</p>
+                        </div>
+                      </div>
+                      <div className="flex flex-col items-start gap-2">
+                        <h1 className="text-lg font-bold text-blue-900/60">
+                          {`Rp ${item.amount.toLocaleString('id-ID')}`}
+                        </h1>
+                      </div>
+                    </div>
+                  </ListContainer>
+                ))}
+                {/* Tombol lihat selengkapnya */}
+                <div
+                  className=" border-blue-100 hover:bg-blue-50 transition-colors cursor-pointer"
+                  onClick={() => navigate("/dashboard/finance-analitics")}
+                >
+                  <div className="flex items-center justify-center px-10 gap-2 text-blue-700/60 py-4 w-full">
+                    <span className="font-semibold">Lihat Selengkapnya</span>
+                    <BiChevronsRight className="text-xl" />
+                  </div>
+                </div>
+              </>
+            ) : (
+              <div className="text-center text-blue-900/50 py-6 font-medium">
+                Kosong
+              </div>
+            )}
+          </div>
         </section>
 
       </div>
