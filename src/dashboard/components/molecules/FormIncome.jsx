@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import useFinanceRecorder from '../../hooks/useRecordFinance';
 import { FaSave } from 'react-icons/fa';
+import useFinance from '../../hooks/useFinance';
 
 export default function FormIncome() {
   const [incomeData, setIncomeData] = useState({
@@ -11,7 +11,7 @@ export default function FormIncome() {
     note: ''
   });
 
-  const { addIncome, loading, resetStatus } = useFinanceRecorder();
+  const { addIncome, loading, resetStatus } = useFinance();
 
   const defaultCategories = ['gaji', 'hadiah','saku','lainnya'];
 

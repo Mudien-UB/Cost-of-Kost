@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import useFinanceRecorder from '../../hooks/useRecordFinance';
 import { FaSave } from 'react-icons/fa';
+import useFinance from '../../hooks/useFinance';
 
 export default function FormExpence() {
   const [expenseData, setExpenseData] = useState({
@@ -11,7 +11,7 @@ export default function FormExpence() {
     note: ''
   });
 
-  const { addExpense, loading,resetStatus } = useFinanceRecorder();
+  const { addExpense, loading,resetStatus } = useFinance();
 
   const defaultCategories = ["tagihan", "makanan", "jajan", "transportasi","lainnya"];
 
