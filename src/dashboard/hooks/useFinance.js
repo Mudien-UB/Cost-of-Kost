@@ -42,7 +42,7 @@ export default function useFinance() {
             setLoading(true);
             const response = await incomeApi.getPage({from, to, sortBy, page, size ,asc});
             setStatus('success');
-            return response.data?.data;
+            return response.data?.content;
         } catch (err) {
             setStatus('error');
             setErrorMessage(err.response?.data?.message || "Failed to get income data");

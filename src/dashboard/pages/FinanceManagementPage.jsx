@@ -77,7 +77,7 @@ export default function FinanceManagementPage() {
         </section>
 
         <section className='w-full'>
-          <TransactionHistories data={listExpenses} />
+          <TransactionHistories data={listExpenses} title="Pengeluaran hari ini" />
         </section>
 
       </div>
