@@ -11,19 +11,32 @@ import { useAuth } from '../authentication/hooks/useAuth';
 export default function DashboardApp() {
 
 
-  const { whoAmI, status, errorMsg, resetStatus } = useAuth();
+  const { whoAmI, resetStatus } = useAuth();
   const navigate = useNavigate();
+
+  const token = localStorage.getItem('token');
 
   useEffect(() => {
   const checkAuth = async () => {
-    await whoAmI();
-    if (status === "success") {
-      navigate('/auth/login');
+    try {
+
+      if(token){
+        await whoAmI();
+      }else{
+        navigate('/auth/login');
+      }
+      
+      
+    } catch {
+      navigate('/auth/login'); 
+    } finally {
+      resetStatus();
     }
-    resetStatus();
   };
+
   checkAuth();
-}, [status]);
+}, []);
+
 
 
   const route = [
@@ -62,11 +75,6 @@ export default function DashboardApp() {
     }
     
   ]
-
-  const token = localStorage.getItem('token');
-  if (!token) {
-    return <Navigate to="/auth/login" />
-  }
 
   return (
     <Routes>

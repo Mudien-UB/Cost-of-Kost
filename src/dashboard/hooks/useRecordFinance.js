@@ -1,42 +1,59 @@
-import { useState } from 'react';
-import { financeRecorderApi } from '../../api/backend/financeRecorderApi';
+import { useCallback, useState } from 'react';
+import { incomeApi } from '../../api/backend/incomeApi';
 
 export default function useFinanceRecorder() {
     const [loading, setLoading] = useState(false);
-    const [error, setError] = useState(null);
+    const [status, setStatus] = useState('idle');
+    const [errorMsg, setErrorMsg] = useState(null);
 
-    const submitExpense = async (date, amount, reason, categoryName, note) => {
-        setLoading(true);
-        setError(null);
-        try {
-            const res = await financeRecorderApi.addExpense(date, amount, reason, categoryName, note);
-            return res;
-        } catch (err) {
-            setError(err?.message || "Something went wrong");
+
+    const addExpense = useCallback( async ({reason, categoryName, amount, note, expenseDate}) => {
+        try{
+            setLoading(true);
+            const response = await expenseApi.add(reason,categoryName,amount,note, expenseDate);
+
+            return response.data?.data;
+
+        }catch (err){
+            setStatus("error");
+            setErrorMsg(err.response?.data?.message || "failed add expense");
             throw err;
-        } finally {
+        }finally{
             setLoading(false);
         }
-    };
 
-    const submitIncome = async (date, amount, source, categoryName, note) => {
-        setLoading(true);
-        setError(null);
-        try {
-            const res = await financeRecorderApi.addIncome(date, amount, source, categoryName, note);
-            return res;
-        } catch (err) {
-            setError(err?.message || "Something went wrong");
+    });
+
+    const addIncome = useCallback( async ({source, categoryName, amount, note, incomeDate}) => {
+        try{
+            setLoading(true);
+            const response = await incomeApi.add(source,categoryName,amount,note, incomeDate);
+
+            return response.data?.data;
+
+        }catch (err){
+            setStatus("error");
+            setErrorMsg(err.response?.data?.message || "failed add expense");
             throw err;
-        } finally {
+        }finally{
             setLoading(false);
         }
-    };
+
+    });
+
+
+    const resetStatus = () =>{
+        setErrorMsg(null);
+    }
+
+    
 
     return {
-        submitExpense,
-        submitIncome,
         loading,
-        error,
+        status,
+        errorMsg,
+        resetStatus,
+        addExpense,
+        addIncome
     };
 }

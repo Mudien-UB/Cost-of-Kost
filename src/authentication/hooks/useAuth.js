@@ -15,10 +15,7 @@ export const useAuth = () => {
     try {
       const response = await authApi.login(emailOrUsername, password);
 
-      console.log(response.data)
-
       const { accessToken } = response.data.data;
-      console.log(accessToken)
       localStorage.setItem("token", accessToken);
 
       setStatus("success");
@@ -37,7 +34,6 @@ export const useAuth = () => {
     try {
       const response = await authApi.register(fullName, username, email, password);
       const { accessToken } = response.data.data;
-      console.log(accessToken)
       localStorage.setItem("token", accessToken);
 
       setStatus("success");
