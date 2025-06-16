@@ -25,7 +25,7 @@ const cleanParams = (params) =>
 const getPage = ({
   from,
   to,
-  sort,
+  sortBy,
   page,
   size,
   asc,
@@ -34,7 +34,7 @@ const getPage = ({
   const filteredParams = cleanParams({
     from,
     to,
-    sort,
+    sortBy,
     page,
     size,
     asc,

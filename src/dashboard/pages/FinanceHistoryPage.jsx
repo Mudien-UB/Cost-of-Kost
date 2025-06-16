@@ -4,6 +4,9 @@ import useFinance from "../hooks/useFinance";
 import TransactionHistories from "../components/organisms/TransactionHistories";
 import MiniNav from "../components/molecules/MiniNav";
 import PaginationNav from "../components/molecules/PaginationNav";
+import { GrAscending } from "react-icons/gr";
+import { PiSortAscendingBold } from "react-icons/pi";
+import FilterIntervalDate from "../components/molecules/FilterIntervalDate";
 
 export default function FinanceHistoryPage() {
   const [expensesData, setExpensesData] = useState([]);
@@ -24,8 +27,8 @@ export default function FinanceHistoryPage() {
     from: null,
     to: null,
     sortBy: null,
-    page: 1,    // default page
-    size: 5,    // jumlah data per halaman
+    page: 1,
+    size: 5,
     asc: true,
   });
 
@@ -82,14 +85,14 @@ export default function FinanceHistoryPage() {
       resetStatus();
     }
   };
-
   useEffect(() => {
+
     if (activeTab === "expense") {
       fetchExpensesData();
     } else {
       fetchIncomesData();
     }
-  }, [activeTab, requestParam.page]); // trigger fetch saat tab/page berubah
+  }, [activeTab, requestParam]);
 
   const handleNextPage = () => {
     if (pagination.page < pagination.totalPage) {
@@ -109,6 +112,20 @@ export default function FinanceHistoryPage() {
     }
   };
 
+  const sortirOption = [
+                {
+                  value: "default",
+                  title: "default"
+                },
+                {
+                  value:"amount",
+                  title:"jumlah",
+                },{
+                  value:"create_time",
+                  title:"tanggal catat"
+                }
+              ]
+
   return (
     <DashboardLayout className="pt-14 min-h-screen">
       <section className="w-full p-4">
@@ -119,10 +136,81 @@ export default function FinanceHistoryPage() {
           ]}
           onClick={(val) => {
             setActiveTab(val);
-            setRequestParam((prev) => ({ ...prev, page: 1 }));
+            setRequestParam((prev) => ({
+              ...prev,
+              page: 1,
+            }));
           }}
           isActive={activeTab}
         />
+        <div className="w-full px-10 py-4 bg-white shadow-md rounded-xl flex items-center justify-between flex-wrap gap-4">
+          <div className="flex items-center gap-4">
+            <select
+              value={requestParam.sortBy || ""}
+              onChange={(e) => {
+                const value = e.target.value === "default" ? null : e.target.value;
+                setRequestParam((prev) => ({
+                  ...prev,
+                  sortBy: value,
+                  page: 1,
+                }));
+              }}
+              className="px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
+            >
+              {sortirOption.map((value, index) => (
+                <option value={value.value} key={index}>
+                  {value.value === "default" ? "Sortir Default" : `Sortir berdasarkan ${value.title}`}
+                </option>
+              ))}
+            </select>
+
+            <label className="inline-flex items-center space-x-2 cursor-pointer">
+              <input
+                type="checkbox"
+                checked={requestParam.asc}
+                onChange={(e) =>
+                  setRequestParam((prev) => ({
+                    ...prev,
+                    asc: e.target.checked,
+                    page: 1,
+                  }))
+                }
+                className="hidden"
+              />
+              <span className="p-2 rounded hover:bg-gray-100 border border-gray-300">
+                <PiSortAscendingBold className={`text-2xl transition-transform duration-300 ${requestParam.asc ? "rotate-0" : "rotate-180"}`} />
+              </span>
+            </label>
+          </div>
+
+          <div className="flex flex-row gap-3 justify-end">
+            <FilterIntervalDate
+              fromDate={requestParam.from}
+              toDate={requestParam.to}
+              onChange={({ fromDate, toDate }) =>
+                setRequestParam((prev) => ({
+                  ...prev,
+                  from: fromDate,
+                  to: toDate,
+                  page: 1,
+                }))
+              }
+            />
+            {requestParam.from && (
+
+
+              <button
+                type="button"
+                onClick={() => resetParam()}
+                className="px-3 py-2 text-sm font-medium text-white bg-red-500 rounded-lg shadow-sm hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-400"
+              >
+                Reset
+              </button>
+            )
+            }
+          </div>
+        </div>
+
 
         {activeTab === "expense" && expenseError && (
           <p className="text-red-500 mb-2">{expenseError}</p>

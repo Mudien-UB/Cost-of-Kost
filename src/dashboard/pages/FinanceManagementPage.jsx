@@ -11,6 +11,13 @@ const dummyData = {
   monthlyIncome: 5000000,
   totalSavingMonthly: 12000000,
 };
+const savingPercentage = Math.max(0, Math.round(((dummyData.monthlyIncome - dummyData.monthlyExpenses) / dummyData.monthlyIncome) * 100));
+
+const ratio = dummyData.monthlyExpenses / dummyData.monthlyIncome;
+const savingRatio = dummyData.totalSavingMonthly / dummyData.monthlyIncome;
+const baseScore = (1 - ratio) * 8;
+const savingBonus = Math.min(2, savingRatio * 2);
+const financeHealthScore = Math.max(0, Math.min(10, Math.round(baseScore + savingBonus)));
 
 export default function FinanceManagementPage() {
   const [error, setError] = useState(null);
@@ -46,12 +53,12 @@ export default function FinanceManagementPage() {
     };
 
     getExpense();
-    
+
     console.log(listExpenses)
   }, []);
 
-  const savingPercentage = ((dummyData.monthlyIncome - dummyData.monthlyExpenses) / dummyData.monthlyIncome) * 100;
-  const financeHealthScore = Math.min(100, (dummyData.totalSavingMonthly / dummyData.monthlyIncome) * 10);
+
+
 
   return (
     <DashboardLayout className="pt-16 min-h-screen">
