@@ -24,6 +24,7 @@ export const useAuth = () => {
       setErrorMsg(
         error.response?.data?.message || "Login failed, please try again"
       );
+      throw error;
     }
   }, [dispatch]);
 
@@ -42,6 +43,7 @@ export const useAuth = () => {
       setErrorMsg(
         error.response?.data?.message || "Register failed, please try again"
       );
+      throw error;
     }
   }, [dispatch]);
 
@@ -50,6 +52,7 @@ export const useAuth = () => {
       await authApi.logout();
     } catch (error) {
       console.error("Logout failed:", error);
+      throw error;
     }
 
     localStorage.removeItem("token");
@@ -74,6 +77,7 @@ export const useAuth = () => {
       }));
     } catch (error) {
       console.error("whoAmI failed:", error);
+      throw error;
     }
   }, [dispatch]);
 
