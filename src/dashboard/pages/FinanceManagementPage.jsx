@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import DashboardLayout from '../layouts/DashboardLayout';
-import TransactionHistories from '../components/organisms/TransactionHistories';
 import SummarizeFinance from '../components/organisms/SummarizeFinance';
 import useFinance from '../hooks/useFinance';
 import { useNavigate } from 'react-router';

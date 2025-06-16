@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import DashboardLayout from '../layouts/DashboardLayout';
-import FormExpence from '../components/molecules/FormExpence';
-import FormIncome from '../components/molecules/FormIncome';
+import FormExpence from '../components/organisms/FormExpence';
+import FormIncome from '../components/organisms/FormIncome';
 import { PiNotePencilFill } from 'react-icons/pi';
 
 export default function FinanceRecordingPage() {

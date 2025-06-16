@@ -3,19 +3,13 @@ import { NavLink } from 'react-router'
 
 const BASE_ROUTE = '/dashboard'
 
-export default function Navigation({ isOpen }) {
+export default function Navigation({ isOpen, routes }) {
 
-    const dashboardRoutes = [
-        { route: '/recording', name: 'Pencatatan Keuangan'},
-        { route: '/finance-management', name: 'Manajemen Keuangan' },
-        { route: '/finance-history', name: 'Histori Keuangan'  },
-        { route: '/goal-saving', name: 'Target Tabungan' },
-        { route: '/expenses-reminder', name: 'Pengingat Pengeluaran Rutin' },
-    ]
+    
 
     return (
         <nav className='w-full flex flex-col gap-1 overflow-hidden'>
-            {dashboardRoutes.map((route, index) => (
+            {routes.map((route, index) => (
                 <NavLink
                     key={index}
                     to={`${BASE_ROUTE}${route.route}`}
