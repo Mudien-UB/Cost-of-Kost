@@ -4,7 +4,7 @@ import useFinance from "../hooks/useFinance";
 import TransactionHistories from "../components/organisms/TransactionHistories";
 import MiniNav from "../components/molecules/MiniNav";
 
-export default function FinanceHistory() {
+export default function FinanceHistoryPage() {
   const [expensesData, setExpensesData] = useState([]);
   const [incomesData, setIncomesData] = useState([]);
 
