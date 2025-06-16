@@ -11,7 +11,6 @@ const add = (source = "", categoryName = "", amount = 0.0, note , incomeDate = n
         note: note,
         incomeDate: incomeDate,
     }
-
     return axiosInstance.post('/income/add', request)
         .then(response => response)
         .catch(error => {
@@ -26,7 +25,7 @@ const cleanParams = (params) =>
 const getPage = ({
   from,
   to,
-  sort,
+  sortBy,
   page,
   size,
   asc,
@@ -35,7 +34,7 @@ const getPage = ({
   const filteredParams = cleanParams({
     from,
     to,
-    sort,
+    sortBy,
     page,
     size,
     asc,
