@@ -113,7 +113,7 @@ export default function FinanceManagementPage() {
                 {/* Tombol lihat selengkapnya */}
                 <div
                   className=" border-blue-100 hover:bg-blue-50 transition-colors cursor-pointer"
-                  onClick={() => navigate("/dashboard/finance-analitics")}
+                  onClick={() => navigate("/dashboard/finance-history")}
                 >
                   <div className="flex items-center justify-center px-10 gap-2 text-blue-700/60 py-4 w-full">
                     <span className="font-semibold">Lihat Selengkapnya</span>

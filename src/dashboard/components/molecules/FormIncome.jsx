@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { FaSave } from 'react-icons/fa';
 import useFinance from '../../hooks/useFinance';
+import FormField from '../atoms/FormField';
 
 export default function FormIncome() {
   const [incomeData, setIncomeData] = useState({
@@ -8,12 +9,13 @@ export default function FormIncome() {
     amount: '',
     source: '',
     categoryName: '',
+    customCategory: '',
     note: ''
   });
 
   const { addIncome, loading, resetStatus } = useFinance();
 
-  const defaultCategories = ['gaji', 'hadiah','saku','lainnya'];
+  const defaultCategories = ['gaji', 'hadiah', 'saku', 'lainnya'];
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -23,20 +25,32 @@ export default function FormIncome() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const { incomeDate, amount, source, categoryName, note } = incomeData;
+    const { incomeDate, amount, source, categoryName, customCategory, note } = incomeData;
 
     if (!amount || !source || !categoryName) {
-      alert('Harap isi jumlah, tujuan, dan kategori.');
+      alert('Harap isi jumlah, sumber, dan kategori.');
+      return;
+    }
+
+    const finalCategory = categoryName === 'lainnya' ? customCategory.trim() : categoryName;
+    if (categoryName === 'lainnya' && !finalCategory) {
+      alert('Harap isi kategori lainnya.');
       return;
     }
 
     try {
-      await addIncome({ source, categoryName, amount: parseFloat(amount), note, incomeDate });
-      alert("Pengeluaran berhasil disimpan!");
+      await addIncome({
+        source,
+        categoryName: finalCategory,
+        amount: parseFloat(amount),
+        note,
+        incomeDate
+      });
+      alert("Pemasukan berhasil disimpan!");
       resetForm();
     } catch (err) {
       console.error(err);
-      alert("Gagal menyimpan pengeluaran");
+      alert("Gagal menyimpan pemasukan");
     }
   };
 
@@ -47,79 +61,71 @@ export default function FormIncome() {
       amount: '',
       source: '',
       categoryName: '',
+      customCategory: '',
       note: ''
     });
   };
 
   return (
-    <div className="w-full max-w-md bg-white p-6 rounded-xl shadow-xl shadow-green-900 ">
+    <div className="w-full max-w-md bg-white p-6 rounded-xl shadow-xl shadow-green-900">
       <h2 className="text-2xl font-semibold text-center text-blue-900/70 mb-6">Catat Pemasukan</h2>
 
       <form onSubmit={handleSubmit} className="space-y-4 flex flex-col">
 
-        <label className="block">
-          <span className="text-blue-900/70 font-bold">Tanggal</span>
-          <input
-            type="date"
-            name="incomeDate"
-            value={incomeData.incomeDate}
-            onChange={handleChange}
-            className="mt-2 block w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-800/60"
-          />
-        </label>
+        <FormField
+          label="Tanggal"
+          name="incomeDate"
+          type="date"
+          value={incomeData.incomeDate}
+          onChange={handleChange}
+        />
 
-        <label className="block">
-          <span className="text-blue-900/70 font-bold">Jumlah (Rp)</span>
-          <input
-            type="number"
-            name="amount"
-            value={incomeData.amount}
-            onChange={handleChange}
-            placeholder="Contoh: 50000"
-            className="mt-2 block w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-800/60"
-          />
-        </label>
+        <FormField
+          label="Jumlah (Rp)"
+          name="amount"
+          type="number"
+          placeholder="Contoh: 50000"
+          value={incomeData.amount}
+          onChange={handleChange}
+        />
 
-        <label className="block">
-          <span className="text-blue-900/70 font-bold">Sumber</span>
-          <input
+        <FormField
+          label="Sumber"
+          name="source"
+          type="text"
+          placeholder="Contoh: Bonus proyek"
+          value={incomeData.source}
+          onChange={handleChange}
+        />
+
+        <FormField
+          label="Kategori"
+          name="categoryName"
+          as="select"
+          value={incomeData.categoryName}
+          onChange={handleChange}
+          options={defaultCategories}
+        />
+
+        {incomeData.categoryName === 'lainnya' && (
+          <FormField
+            label="Kategori Lainnya"
+            name="customCategory"
             type="text"
-            name="source"
-            value={incomeData.source}
+            placeholder="Masukkan kategori khusus"
+            value={incomeData.customCategory}
             onChange={handleChange}
-            placeholder="Contoh: Beli bensin"
-            className="mt-2 block w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-800/60"
           />
-        </label>
+        )}
 
-        <label className="block">
-          <span className="text-blue-900/70 font-bold">Kategori</span>
-          <select
-            name="categoryName"
-            value={incomeData.categoryName}
-            onChange={handleChange}
-            className="mt-2 block w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-800/60"
-          >
-            <option value="" disabled>Pilih kategori</option>
-            {defaultCategories.map((cat, idx) => (
-              <option key={idx} value={cat} className="capitalize">
-                {cat}
-              </option>
-            ))}
-            <option value="lainnya">Lainnya</option>
-          </select>
-        </label>
-
-        <label className="block">
-          <span className="text-blue-900/70 font-bold">Keterangan (Opsional)</span>
-          <textarea
-            name="note"
-            value={incomeData.note}
-            onChange={handleChange}
-            placeholder="Catatan tambahan jika perlu"
-            className="mt-2 block w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-800/60"
-          />
-        </label>
+        <FormField
+          label="Keterangan (Opsional)"
+          name="note"
+          as="textarea"
+          placeholder="Catatan tambahan jika perlu"
+          value={incomeData.note}
+          onChange={handleChange}
+        />
 
         <button
           type="submit"

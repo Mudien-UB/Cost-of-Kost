@@ -8,7 +8,7 @@ export default function Navigation({ isOpen }) {
     const dashboardRoutes = [
         { route: '/recording', name: 'Pencatatan Keuangan'},
         { route: '/finance-management', name: 'Manajemen Keuangan' },
-        { route: '/finance-analitics', name: 'Analisa Keuangan' },
+        { route: '/finance-history', name: 'Histori Keuangan'  },
         { route: '/goal-saving', name: 'Target Tabungan' },
         { route: '/expenses-reminder', name: 'Pengingat Pengeluaran Rutin' },
     ]
