@@ -16,6 +16,14 @@ export default function SideBar({ toggleSidebar }) {
     toggleSidebar();
   };
 
+  const dashboardRoutes = [
+          { route: '/recording', name: 'Pencatatan Keuangan'},
+          { route: '/finance-management', name: 'Manajemen Keuangan' },
+          { route: '/finance-history', name: 'Histori Keuangan'  },
+          { route: '/goal-saving', name: 'Target Tabungan' },
+          { route: '/expenses-reminder', name: 'Pengingat Pengeluaran Rutin' },
+      ]
+
   const baseRoutes = [
     {
       route: '/dashboard/settings',
@@ -53,7 +61,7 @@ export default function SideBar({ toggleSidebar }) {
 
         <div className='h-full flex flex-col justify-between'>
 
-        <Navigation isOpen={isOpen} />
+        <Navigation isOpen={isOpen} routes={dashboardRoutes} />
         <ul className="mt-4 ">
           {baseRoutes.map((route, index) => (
             <li key={index} className="mb-4 flex justify-start">
