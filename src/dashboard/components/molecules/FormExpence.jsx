@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { FaSave } from 'react-icons/fa';
 import useFinance from '../../hooks/useFinance';
+import FormField from '../atoms/FormField';
 
 export default function FormExpence() {
   const [expenseData, setExpenseData] = useState({
@@ -8,12 +9,13 @@ export default function FormExpence() {
     amount: '',
     reason: '',
     categoryName: '',
+    customCategory: '',
     note: ''
   });
 
-  const { addExpense, loading,resetStatus } = useFinance();
+  const { addExpense, loading, resetStatus } = useFinance();
 
-  const defaultCategories = ["tagihan", "makanan", "jajan", "transportasi","lainnya"];
+  const defaultCategories = ["tagihan", "makanan", "jajan", "transportasi", "lainnya"];
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -23,15 +25,27 @@ export default function FormExpence() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const { expenseDate, amount, reason, categoryName, note } = expenseData;
+    const { expenseDate, amount, reason, categoryName, customCategory, note } = expenseData;
 
     if (!amount || !reason || !categoryName) {
       alert('Harap isi jumlah, tujuan, dan kategori.');
       return;
     }
 
+    const finalCategory = categoryName === 'lainnya' ? customCategory.trim() : categoryName;
+    if (categoryName === 'lainnya' && !finalCategory) {
+      alert('Harap isi kategori lainnya.');
+      return;
+    }
+
     try {
-      await addExpense({ reason, categoryName, amount: parseFloat(amount), note, expenseDate });
+      await addExpense({
+        reason,
+        categoryName: finalCategory,
+        amount: parseFloat(amount),
+        note,
+        expenseDate
+      });
       alert("Pengeluaran berhasil disimpan!");
       resetForm();
     } catch (err) {
@@ -47,6 +61,7 @@ export default function FormExpence() {
       amount: '',
       reason: '',
       categoryName: '',
+      customCategory: '',
       note: ''
     });
   };
@@ -57,69 +72,61 @@ export default function FormExpence() {
 
       <form onSubmit={handleSubmit} className="space-y-4 flex flex-col">
 
-        <label className="block">
-          <span className="text-blue-900/70 font-bold">Tanggal</span>
-          <input
-            type="date"
-            name="expenseDate"
-            value={expenseData.expenseDate}
-            onChange={handleChange}
-            className="mt-2 block w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-800/60"
-          />
-        </label>
+        <FormField
+          label="Tanggal"
+          name="expenseDate"
+          type="date"
+          value={expenseData.expenseDate}
+          onChange={handleChange}
+        />
 
-        <label className="block">
-          <span className="text-blue-900/70 font-bold">Jumlah (Rp)</span>
-          <input
-            type="number"
-            name="amount"
-            value={expenseData.amount}
-            onChange={handleChange}
-            placeholder="Contoh: 50000"
-            className="mt-2 block w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-800/60"
-          />
-        </label>
+        <FormField
+          label="Jumlah (Rp)"
+          name="amount"
+          type="number"
+          placeholder="Contoh: 50000"
+          value={expenseData.amount}
+          onChange={handleChange}
+        />
 
-        <label className="block">
-          <span className="text-blue-900/70 font-bold">Tujuan</span>
-          <input
+        <FormField
+          label="Tujuan"
+          name="reason"
+          type="text"
+          placeholder="Contoh: Beli bensin"
+          value={expenseData.reason}
+          onChange={handleChange}
+        />
+
+        <FormField
+          label="Kategori"
+          name="categoryName"
+          as="select"
+          value={expenseData.categoryName}
+          onChange={handleChange}
+          options={defaultCategories}
+        />
+
+        {/* Input tambahan saat memilih kategori "lainnya" */}
+        {expenseData.categoryName === 'lainnya' && (
+          <FormField
+            label="Kategori Lainnya"
+            name="customCategory"
             type="text"
-            name="reason"
-            value={expenseData.reason}
+            placeholder="Masukkan nama kategori"
+            value={expenseData.customCategory}
             onChange={handleChange}
-            placeholder="Contoh: Beli bensin"
-            className="mt-2 block w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-800/60"
           />
-        </label>
+        )}
 
-        <label className="block">
-          <span className="text-blue-900/70 font-bold">Kategori</span>
-          <select
-            name="categoryName"
-            value={expenseData.categoryName}
-            onChange={handleChange}
-            className="mt-2 block w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-800/60"
-          >
-            <option value="" disabled>Pilih kategori</option>
-            {defaultCategories.map((cat, idx) => (
-              <option key={idx} value={cat} className="capitalize">
-                {cat}
-              </option>
-            ))}
-            <option value="lainnya">Lainnya</option>
-          </select>
-        </label>
-
-        <label className="block">
-          <span className="text-blue-900/70 font-bold">Keterangan (Opsional)</span>
-          <textarea
-            name="note"
-            value={expenseData.note}
-            onChange={handleChange}
-            placeholder="Catatan tambahan jika perlu"
-            className="mt-2 block w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-800/60"
-          />
-        </label>
+        <FormField
+          label="Keterangan (Opsional)"
+          name="note"
+          as="textarea"
+          placeholder="Catatan tambahan jika perlu"
+          value={expenseData.note}
+          onChange={handleChange}
+        />
 
         <button
           type="submit"

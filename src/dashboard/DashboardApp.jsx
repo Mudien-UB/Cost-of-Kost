@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import { Navigate, Route, Routes, useNavigate } from 'react-router'
 import FinanceManagementPage from './pages/FinanceManagementPage';
-import FinanceAnalistPage from './pages/FinanceAnalistPage';
 import SavingTargetPage from './pages/SavingTargetPage';
 import ExpensesReminderPage from './pages/ExpensesReminderPage';
 import FinanceRecordingPage from './pages/FinanceRecordingPage';
 import { useAuth } from '../authentication/hooks/useAuth';
+import FinanceHistory from './pages/FinanceHistory';
 
 
 export default function DashboardApp() {
@@ -54,8 +54,8 @@ export default function DashboardApp() {
       element: <FinanceManagementPage />,
     },
     {
-      path: '/finance-analitics',
-      element: <FinanceAnalistPage />,
+      path: '/finance-history',
+      element: <FinanceHistory />,
     },
     {
       path: '/goal-saving',

@@ -2,8 +2,9 @@ import React, { useEffect, useState } from "react";
 import DashboardLayout from "../layouts/DashboardLayout";
 import useFinance from "../hooks/useFinance";
 import TransactionHistories from "../components/organisms/TransactionHistories";
+import MiniNav from "../components/molecules/MiniNav";
 
-export default function FinanceAnalystPage() {
+export default function FinanceHistory() {
   const [expensesData, setExpensesData] = useState([]);
   const [incomesData, setIncomesData] = useState([]);
 
@@ -75,35 +76,25 @@ export default function FinanceAnalystPage() {
   }, [activeTab]);
 
   return (
-    <DashboardLayout className="pt-16 min-h-screen">
+    <DashboardLayout className="pt-14 min-h-screen">
       <section className="w-full p-4">
-        <h1 className="text-3xl font-medium mb-5 px-4 underline">
-          Histori Keuangan
-        </h1>
 
-        <div className="flex justify-center border-b border-gray-300 mb-4">
-          <button
-            onClick={() => setActiveTab("expense")}
-            className={`px-4 py-2 text-sm font-medium ${
-              activeTab === "expense"
-                ? "border-b-2 border-indigo-600 text-indigo-600"
-                : "text-gray-600 hover:text-indigo-500"
-            }`}
-          >
-            Pengeluaran
-          </button>
-          <button
-            onClick={() => setActiveTab("income")}
-            className={`ml-4 px-4 py-2 text-sm font-medium ${
-              activeTab === "income"
-                ? "border-b-2 border-indigo-600 text-indigo-600"
-                : "text-gray-600 hover:text-indigo-500"
-            }`}
-          >
-            Pemasukan
-          </button>
-        </div>
 
+          <MiniNav 
+            navigate={[
+              {
+                link: "expense",
+                title:"Pengeluaran"
+              },
+              {
+                link: "income",
+                title: "Pemasukan",
+              }
+            ]}
+            onClick={(val) => setActiveTab(val)}
+            isActive={activeTab}
+
+          />        
         {activeTab === "expense" && expenseError && (
           <p className="text-red-500 mb-2">{expenseError}</p>
         )}
