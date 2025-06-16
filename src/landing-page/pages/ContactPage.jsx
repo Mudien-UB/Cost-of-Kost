@@ -13,7 +13,7 @@ export default function ContactPage() {
 
           <div className="w-1/2 flex justify-center gap-6 mb-8">
             <a
-              href="https://instagram.com/yourhandle"
+              href="https://instagram.com"
               target="_blank"
               rel="noopener noreferrer"
               title="Kunjungi Instagram kami"
@@ -24,7 +24,7 @@ export default function ContactPage() {
               <span className="font-medium text-lg">Instagram</span>
             </a>
             <a
-              href="https://facebook.com/yourpage"
+              href="https://facebook.com"
               target="_blank"
               rel="noopener noreferrer"
               title="Kunjungi Facebook kami"
