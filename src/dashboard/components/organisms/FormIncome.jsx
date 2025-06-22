@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { FaSave } from 'react-icons/fa';
 import useFinance from '../../hooks/useFinance';
 import FormField from '../atoms/FormField';
@@ -13,7 +13,9 @@ export default function FormIncome() {
     note: ''
   });
 
-  const { addIncome, loading, resetStatus } = useFinance();
+  const [categoryDisplay, setCategoryDisplay] = useState([]);
+
+  const { addIncome, loading, resetStatus, getCategoryIncome } = useFinance();
 
   const defaultCategories = ['gaji', 'hadiah', 'saku', 'lainnya'];
 
@@ -32,8 +34,8 @@ export default function FormIncome() {
       return;
     }
 
-    const finalCategory = categoryName === 'lainnya' ? customCategory.trim() : categoryName;
-    if (categoryName === 'lainnya' && !finalCategory) {
+    const finalCategory = categoryName.toLowerCase() === 'lainnya' ? customCategory.trim() : categoryName;
+    if (categoryName.toLowerCase() === 'lainnya' && !finalCategory) {
       alert('Harap isi kategori lainnya.');
       return;
     }
@@ -65,6 +67,38 @@ export default function FormIncome() {
       note: ''
     });
   };
+
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const res = await getCategoryIncome();
+        const backendCategories = res.map(cat => cat.name.toLowerCase()) || [];
+
+        let combined = [...backendCategories];
+
+        if (combined.length < 3) {
+          const needed = defaultCategories.filter(
+            cat => cat !== 'lainnya' && !combined.includes(cat)
+          );
+          const fillCount = 3 - combined.length;
+          combined = [...combined, ...needed.slice(0, fillCount)];
+        }
+
+        if (!combined.includes('lainnya')) {
+          combined.push('lainnya');
+        }
+
+        setCategoryDisplay(combined);
+      } catch (err) {
+        console.error(err);
+        setCategoryDisplay(defaultCategories);
+      } finally {
+        resetStatus();
+      }
+    };
+
+    fetchCategories();
+  }, []);
 
   return (
     <div className="w-full max-w-md bg-white p-6 rounded-xl shadow-xl shadow-green-900">
@@ -104,10 +138,10 @@ export default function FormIncome() {
           as="select"
           value={incomeData.categoryName}
           onChange={handleChange}
-          options={defaultCategories}
+          options={categoryDisplay.map(cat => cat.charAt(0).toUpperCase() + cat.slice(1))}
         />
 
-        {incomeData.categoryName === 'lainnya' && (
+        {incomeData.categoryName?.toLowerCase() === 'lainnya' && (
           <FormField
             label="Kategori Lainnya"
             name="customCategory"

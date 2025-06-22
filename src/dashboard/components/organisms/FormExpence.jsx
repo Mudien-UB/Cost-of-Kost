@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { FaSave } from 'react-icons/fa';
 import useFinance from '../../hooks/useFinance';
 import FormField from '../atoms/FormField';
@@ -13,7 +13,9 @@ export default function FormExpence() {
     note: ''
   });
 
-  const { addExpense, loading, resetStatus } = useFinance();
+  const [categoryDisplay, setCategoryDisplay] = useState([]);
+
+  const { addExpense, loading, resetStatus, getCategoryExpense } = useFinance();
 
   const defaultCategories = ["tagihan", "makanan", "jajan", "transportasi", "lainnya"];
 
@@ -32,7 +34,7 @@ export default function FormExpence() {
       return;
     }
 
-    const finalCategory = categoryName === 'lainnya' ? customCategory.trim() : categoryName;
+    const finalCategory = categoryName === 'lainnya' ? customCategory : categoryName;
     if (categoryName === 'lainnya' && !finalCategory) {
       alert('Harap isi kategori lainnya.');
       return;
@@ -65,6 +67,40 @@ export default function FormExpence() {
       note: ''
     });
   };
+
+ useEffect(() => {
+  const fetchCategories = async () => {
+    try {
+      const res = await getCategoryExpense();
+      const backendCategories = res.map(cat => cat.name.toLowerCase()) || [];
+
+      let combined = [...backendCategories];
+
+      if (combined.length < 4) {
+        const needed = defaultCategories.filter(
+          (cat) => cat !== 'lainnya' && !combined.includes(cat)
+        );
+
+        const fillCount = 4 - combined.length;
+        combined = [...combined, ...needed.slice(0, fillCount)];
+      }
+
+      if (!combined.includes('lainnya')) {
+        combined.push('lainnya');
+      }
+
+      setCategoryDisplay(combined);
+    } catch (err) {
+      console.error(err);
+      setCategoryDisplay(defaultCategories); // fallback
+    } finally {
+      resetStatus();
+    }
+  };
+
+  fetchCategories();
+}, []);
+
 
   return (
     <div className="w-full max-w-md bg-white p-6 rounded-xl shadow-xl shadow-blue-900">
@@ -104,10 +140,9 @@ export default function FormExpence() {
           as="select"
           value={expenseData.categoryName}
           onChange={handleChange}
-          options={defaultCategories}
+          options={categoryDisplay}
         />
 
-        {/* Input tambahan saat memilih kategori "lainnya" */}
         {expenseData.categoryName === 'lainnya' && (
           <FormField
             label="Kategori Lainnya"
