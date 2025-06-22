@@ -50,7 +50,15 @@ const getPage = ({
     });
 };
 
+const getCategoryIncome = () => {
+
+  return axiosInstance.get('/income/categories')
+                      .then(res => res.data)
+                      .catch(err => {throw err})
+}
+
 export const incomeApi = {
     add,
-    getPage
+    getPage,
+    getCategoryIncome
 }

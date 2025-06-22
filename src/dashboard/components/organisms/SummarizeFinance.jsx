@@ -5,7 +5,7 @@ export default function SummarizeFinance({
   isLoading,
   error,
   dailyExpense,
-  monthlyIncome,
+  monthlyExpense,
   savingPercentage,
   financeHealthScore,
 }) {
@@ -22,28 +22,34 @@ export default function SummarizeFinance({
   return (
     <section className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
       <CardContainer title="Pengeluaran Hari Ini">
-          <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-blue-800">
-            Rp. {dailyExpense.toLocaleString('id-ID')}
-          </h1>
+        <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-blue-800">
+          Rp. {dailyExpense.toLocaleString('id-ID')}
+        </h1>
       </CardContainer>
 
-      <CardContainer title="Total Pemasukan Bulan Ini">
-          <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-blue-800">
-            Rp. {monthlyIncome.toLocaleString('id-ID')}
-          </h1>
+      <CardContainer title="Total Pengeluaran Bulan Ini">
+        <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-blue-800">
+          Rp. {monthlyExpense.toLocaleString('id-ID')}
+        </h1>
       </CardContainer>
 
       <CardContainer title="Persentase Hemat">
-          <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-blue-800">
-            {savingPercentage.toFixed(2)}%
-          </h1>
+        <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-blue-800">
+          {savingPercentage.toFixed(1)}%
+        </h1>
       </CardContainer>
 
       <CardContainer title="Nilai Finansial">
-          <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-blue-800">
-            {financeHealthScore.toFixed(1)}/10
-          </h1>
+        {typeof financeHealthScore === 'number' ? (
+            <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-blue-800">
+              {financeHealthScore.toFixed(1)}/10
+            </h1>
+          
+        ) : (
+          <h2 className="text-xl sm:text-2xl md:text-3xl text-blue-800/50 font-bold">{financeHealthScore}</h2>
+        )}
       </CardContainer>
+
     </section>
   );
 }

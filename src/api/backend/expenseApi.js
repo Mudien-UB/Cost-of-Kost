@@ -51,8 +51,16 @@ const getPage = ({
     });
 };
 
+const getCategoryExpense = () => {
+
+  return axiosInstance.get('/expense/categories')
+                      .then(res => res.data)
+                      .catch(err => {throw err})
+}
+
 
 export const expenseApi = {
     add,
-    getPage
+    getPage,
+    getCategoryExpense
 }

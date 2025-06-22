@@ -42,8 +42,8 @@ export default function DashboardApp() {
     { path: 'recording', element: <FinanceRecordingPage /> },
     { path: '/finance-management', element: <FinanceManagementPage /> },
     { path: '/finance-history', element: <FinanceHistoryPage /> },
-    { path: '/goal-saving', element: <SavingTargetPage /> },
-    { path: '/expenses-reminder', element: <ExpensesReminderPage /> },
+    // { path: '/goal-saving', element: <SavingTargetPage /> },
+    // { path: '/expenses-reminder', element: <ExpensesReminderPage /> },
   ];
 
   const similarRoute = [

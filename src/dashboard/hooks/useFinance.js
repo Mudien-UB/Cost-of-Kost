@@ -73,6 +73,39 @@ export default function useFinance() {
         setErrorMessage(null);
     };
 
+    const getCategoryExpense = useCallback(async () => {
+
+        try {
+            setLoading(true)
+            const response = await expenseApi.getCategoryExpense();
+            setStatus('success')
+            return response.data;
+        }catch ( err) {
+            setStatus('error');
+            setErrorMessage(err.response?.data?.message || "Failed to get category");
+            return null;
+        }finally {
+            setLoading(false);
+        }
+
+    }, []);
+    const getCategoryIncome = useCallback(async () => {
+
+        try {
+            setLoading(true)
+            const response = await incomeApi.getCategoryIncome();
+            setStatus('success')
+            return response.data;
+        }catch ( err) {
+            setStatus('error');
+            setErrorMessage(err.response?.data?.message || "Failed to get category");
+            return null;
+        }finally {
+            setLoading(false);
+        }
+
+    }, []);
+
     return {
         loading,
         status,
@@ -82,5 +115,7 @@ export default function useFinance() {
         addIncome,
         getListExpense,
         getListIncome,
+        getCategoryExpense,
+        getCategoryIncome,
     };
 }
