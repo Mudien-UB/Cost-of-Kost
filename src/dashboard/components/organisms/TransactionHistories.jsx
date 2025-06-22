@@ -30,6 +30,7 @@ export default function TransactionHistories({ data, title, type = 'expense' }) 
                                     <div className="flex flex-col items-start gap-2">
                                         <h1 className="text-lg font-bold text-blue-900/60">
                                             {`Rp ${item.amount.toLocaleString('id-ID')}`}
+                                            {item.note && (<p className="text-sm font-bold text-blue-900/50">{item.note}</p>)}
                                         </h1>
                                     </div>
                                 </div>

@@ -5,60 +5,69 @@ import useFinance from '../hooks/useFinance';
 import { useNavigate } from 'react-router';
 import ListContainer from '../components/molecules/ListContainer';
 import { BiChevronsRight } from 'react-icons/bi';
-
-const dummyData = {
-  monthlyExpenses: 2500000,
-  monthlyIncome: 5000000,
-  totalSavingMonthly: 12000000,
-};
-const savingPercentage = Math.max(0, Math.round(((dummyData.monthlyIncome - dummyData.monthlyExpenses) / dummyData.monthlyIncome) * 100));
-
-const ratio = dummyData.monthlyExpenses / dummyData.monthlyIncome;
-const savingRatio = dummyData.totalSavingMonthly / dummyData.monthlyIncome;
-const baseScore = (1 - ratio) * 8;
-const savingBonus = Math.min(2, savingRatio * 2);
-const financeHealthScore = Math.max(0, Math.min(10, Math.round(baseScore + savingBonus)));
+import useAnalytics from '../hooks/useAnalytics';
 
 export default function FinanceManagementPage() {
   const [error, setError] = useState(null);
   const [listExpenses, setListExpenses] = useState([]);
   const [totalDailyExpense, setTotalDailyExpense] = useState(0.0);
+  const [insightData, setInsightData] = useState(null);
 
   const navigate = useNavigate();
 
+  // Renamed variables to avoid conflict
   const {
-    loading,
-    errorMessage,
-    resetStatus,
+    loading: loadingAnalytics,
+    resetStatus: resetAnalyticsStatus,
+    status: statusAnalytics,
+    getFinancialInsight
+  } = useAnalytics();
+
+  const {
+    loading: loadingFinance,
+    errorMessage: financeError,
+    resetStatus: resetFinanceStatus,
     getListExpense
   } = useFinance();
 
   useEffect(() => {
     const getExpense = async () => {
-
       try {
-        const resData = await getListExpense({
+        const expensesData = await getListExpense({
           from: new Date().toISOString().split('T')[0],
           to: new Date().toISOString().split('T')[0]
         });
-        if (resData) {
-          setListExpenses(resData.content);
-          setTotalDailyExpense(resData.content.reduce((acc, item) => acc + item.amount, 0))
+        if (expensesData) {
+          setListExpenses(expensesData.content);
+          setTotalDailyExpense(
+            expensesData.content.reduce((acc, item) => acc + item.amount, 0)
+          );
         }
       } catch (err) {
-        setError(errorMessage);
+        console.log(err)
       } finally {
-        resetStatus();
+        resetFinanceStatus();
       }
     };
-
     getExpense();
-
-    console.log(listExpenses)
   }, []);
 
-
-
+  useEffect(() => {
+    const getInsightData = async () => {
+      try {
+        const financialInsight = await getFinancialInsight();
+        console.log(financialInsight)
+        if (financialInsight) {
+          setInsightData(financialInsight);
+        }
+      } catch (err) {
+        console.log(err)
+      } finally {
+        resetAnalyticsStatus();
+      }
+    };
+    getInsightData();
+  }, []);
 
   return (
     <DashboardLayout className="pt-16 min-h-screen">
@@ -66,12 +75,12 @@ export default function FinanceManagementPage() {
 
         <section className="w-full">
           <SummarizeFinance
-            isLoading={loading}
+            isLoading={loadingAnalytics || loadingFinance}
             error={error}
-            dailyExpense={totalDailyExpense}
-            monthlyIncome={dummyData.monthlyIncome}
-            savingPercentage={savingPercentage}
-            financeHealthScore={financeHealthScore}
+            dailyExpense={insightData?.totalExpenseToday || 0}
+            monthlyExpense={insightData?.totalExpenseThisMonth || 0}
+            savingPercentage={insightData?.todaySavingPercentage || 0}
+            financeHealthScore={insightData?.financialHealthScore || "Belum ada data"}
           />
         </section>
 
@@ -116,9 +125,8 @@ export default function FinanceManagementPage() {
                     </div>
                   </ListContainer>
                 ))}
-                {/* Tombol lihat selengkapnya */}
                 <div
-                  className=" border-blue-100 hover:bg-blue-50 transition-colors cursor-pointer"
+                  className="border-blue-100 hover:bg-blue-50 transition-colors cursor-pointer"
                   onClick={() => navigate("/dashboard/finance-history")}
                 >
                   <div className="flex items-center justify-center px-10 gap-2 text-blue-700/60 py-4 w-full">
