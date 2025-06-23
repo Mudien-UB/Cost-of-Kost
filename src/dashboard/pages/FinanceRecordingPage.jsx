@@ -19,7 +19,7 @@ export default function FinanceRecordingPage() {
       <section className="w-full mt-16 flex flex-1 justify-center items-center px-4">
         <section className="w-full h-full flex flex-col gap-10 items-center">
           <button
-            className="flex flex-row-reverse items-center gap-2 bg-blue-800 font-bold hover:opacity-90 text-white px-4 py-2 rounded text-sm transition-all duration-200"
+            className={`flex flex-row-reverse items-center gap-2 font-bold hover:opacity-90 text-white px-4 py-2 rounded text-sm transition-all duration-200 ${isExpense ? 'bg-blue-800' : 'bg-green-800'} `}
             onClick={handleToggle}
           >
             {buttonText} <PiNotePencilFill className="text-base" />

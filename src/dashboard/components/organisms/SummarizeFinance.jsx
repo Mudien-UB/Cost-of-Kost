@@ -35,14 +35,20 @@ export default function SummarizeFinance({
 
       <CardContainer title="Persentase Hemat">
         <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-blue-800">
-          {savingPercentage.toFixed(1)}%
+          {savingPercentage.toLocaleString("id-ID", {
+  minimumFractionDigits: 1,
+  maximumFractionDigits: 1
+})}%
         </h1>
       </CardContainer>
 
       <CardContainer title="Nilai Finansial">
         {typeof financeHealthScore === 'number' ? (
             <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-blue-800">
-              {financeHealthScore.toFixed(1)}/10
+              {financeHealthScore.toLocaleString('id-ID', {
+                minimumFractionDigits: 1,
+                maximumFractionDigits: 1,
+              })}/10
             </h1>
           
         ) : (
