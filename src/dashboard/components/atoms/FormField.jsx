@@ -11,13 +11,14 @@ export default function FormField({
   as = 'input',
   options = [],
   disabled = false,
+  textColour='text-blue-900/70',
   ...props
 }) {
-  const commonClass = "mt-2 block w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-800/60";
+  const commonClass = "mt-2 block w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-800/60" + textColour;
 
   return (
     <label className="block">
-      <span className="text-blue-900/70 font-bold">{label}</span>
+      <span className={`font-bold ${textColour}`}>{label}</span>
 
       {as === 'textarea' ? (
         <textarea

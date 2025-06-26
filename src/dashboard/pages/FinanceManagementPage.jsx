@@ -10,7 +10,6 @@ import useAnalytics from '../hooks/useAnalytics';
 export default function FinanceManagementPage() {
   const [error, setError] = useState(null);
   const [listExpenses, setListExpenses] = useState([]);
-  const [totalDailyExpense, setTotalDailyExpense] = useState(0.0);
   const [insightData, setInsightData] = useState(null);
 
   const navigate = useNavigate();
@@ -39,12 +38,10 @@ export default function FinanceManagementPage() {
         });
         if (expensesData) {
           setListExpenses(expensesData.content);
-          setTotalDailyExpense(
-            expensesData.content.reduce((acc, item) => acc + item.amount, 0)
-          );
         }
       } catch (err) {
         console.log(err)
+        setError(err)
       } finally {
         resetFinanceStatus();
       }
@@ -62,12 +59,14 @@ export default function FinanceManagementPage() {
         }
       } catch (err) {
         console.log(err)
+        setError(err)
       } finally {
         resetAnalyticsStatus();
       }
     };
     getInsightData();
   }, []);
+
 
   return (
     <DashboardLayout className="pt-16 min-h-screen">
@@ -79,7 +78,7 @@ export default function FinanceManagementPage() {
             error={error}
             dailyExpense={insightData?.totalExpenseToday || 0}
             monthlyExpense={insightData?.totalExpenseThisMonth || 0}
-            savingPercentage={insightData?.todaySavingPercentage || 0}
+            savingPercentage={insightData?.percentageThisMonth || "Belum ada data"}
             financeHealthScore={insightData?.financialHealthScore || "Belum ada data"}
           />
         </section>
