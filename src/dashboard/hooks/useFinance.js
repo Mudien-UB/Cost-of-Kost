@@ -106,6 +106,31 @@ export default function useFinance() {
 
     }, []);
 
+    const deleteExpense = useCallback(async ({id}) => {
+        try{
+            setLoading(true)
+            const res = await expenseApi.deleteExpense(id);
+            setStatus('success')
+        }catch (err) {
+            setStatus('error');
+            setErrorMessage(err.response?.data?.message)
+        }finally {
+            setLoading(false)
+        }
+    })
+    const deleteIncome = useCallback(async ({id}) => {
+        try{
+            setLoading(true)
+            const res = await incomeApi.deleteIncome(id);
+            setStatus('success')
+        }catch (err) {
+            setStatus('error');
+            setErrorMessage(err.response?.data?.message)
+        }finally {
+            setLoading(false)
+        }
+    })
+
     return {
         loading,
         status,
@@ -117,5 +142,7 @@ export default function useFinance() {
         getListIncome,
         getCategoryExpense,
         getCategoryIncome,
+        deleteExpense,
+        deleteIncome,
     };
 }

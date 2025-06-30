@@ -1,7 +1,7 @@
 import React from 'react'
 import { BiTrashAlt } from 'react-icons/bi';
 
-export default function ListContainer({ index, children, className, OnDelete, OnClick }) {
+export default function ListContainer({ index, children, className, OnDelete, OnClick, id }) {
   return (
     <div
       className={`w-full px-4 py-3 flex items-start justify-between gap-4 relative ${className}`}
@@ -14,7 +14,11 @@ export default function ListContainer({ index, children, className, OnDelete, On
       <div className="w-max flex flex-col md:flex-row gap-2 pt-1">
         
         <button
-          onClick={(e) => { e.stopPropagation(); OnDelete(); }}
+          onClick={(e) => {
+            e.stopPropagation();
+            e.preventDefault();
+            OnDelete?.(id);
+          }}
           className="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded text-sm"
         >
           <BiTrashAlt size={20} />
