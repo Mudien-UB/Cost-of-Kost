@@ -57,8 +57,15 @@ const getCategoryIncome = () => {
                       .catch(err => {throw err})
 }
 
+const deleteIncome = (id) => {
+  return axiosInstance.delete("/income/" + id)
+                      .then(res => res)
+                      .catch(err => {throw err})
+}
+
 export const incomeApi = {
     add,
     getPage,
-    getCategoryIncome
+    getCategoryIncome,
+    deleteIncome
 }

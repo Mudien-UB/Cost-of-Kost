@@ -49,6 +49,8 @@ export default function FinanceHistoryPage() {
     errorMessage,
     getListExpense,
     getListIncome,
+    deleteExpense,
+    deleteIncome,
     resetStatus,
   } = useFinance();
 
@@ -112,19 +114,40 @@ export default function FinanceHistoryPage() {
     }
   };
 
+  const handleDelete = async (id) => {
+    console.log("handle delete dipanggil " + id)
+    try {
+      let res = '';
+      if (activeTab === 'expense') {
+        res = await deleteExpense(id)
+        console.log(res)
+      }else if(activeTab === 'income'){
+        res = await deleteIncome(id)
+        console.log(res)
+      }else {
+        res = '';
+        console.log("invalid")
+      }
+    } catch (err) {
+      console.log(err)
+    } finally {
+      resetStatus()
+    }
+  }
+
   const sortirOption = [
-                {
-                  value: "default",
-                  title: "default"
-                },
-                {
-                  value:"amount",
-                  title:"jumlah",
-                },{
-                  value:"create_time",
-                  title:"tanggal catat"
-                }
-              ]
+    {
+      value: "default",
+      title: "default"
+    },
+    {
+      value: "amount",
+      title: "jumlah",
+    }, {
+      value: "create_time",
+      title: "tanggal catat"
+    }
+  ]
 
   return (
     <DashboardLayout className="pt-14 min-h-screen">
@@ -223,6 +246,7 @@ export default function FinanceHistoryPage() {
           data={activeTab === "expense" ? expensesData : incomesData}
           title={activeTab === "expense" ? "Data Pengeluaran" : "Data Pemasukan"}
           type={activeTab === "expense" ? "expense" : "income"}
+          onDelete={handleDelete}
         />
 
         <PaginationNav

@@ -58,9 +58,16 @@ const getCategoryExpense = () => {
                       .catch(err => {throw err})
 }
 
+const deleteExpense = ({id}) => {
+  return axiosInstance.delete("/expense/" + {id})
+                      .then(res => res)
+                      .catch(err => {throw err})
+}
+
 
 export const expenseApi = {
     add,
     getPage,
-    getCategoryExpense
+    getCategoryExpense,
+    deleteExpense,
 }

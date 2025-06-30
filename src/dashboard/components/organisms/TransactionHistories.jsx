@@ -2,7 +2,7 @@ import React from 'react'
 import ListContainer from '../molecules/ListContainer'
 import { BiChevronsRight } from 'react-icons/bi';
 
-export default function TransactionHistories({ data, title, type = 'expense' }) {
+export default function TransactionHistories({ data, title, type = 'expense', onDelete }) {
     return (
         <div className="bg-white px-6 py-5 mt-6 shadow-md rounded-2xl w-full mx-auto">
             <h1 className="text-2xl text-center font-bold text-blue-900/70 mb-4">{title}</h1>
@@ -12,9 +12,10 @@ export default function TransactionHistories({ data, title, type = 'expense' }) 
                         {data.map((item, index) => (
                             <ListContainer
                                 key={item.id}
+                                id={item.id}
                                 index={index + 1}
                                 className="border-b border-blue-100 hover:bg-blue-50 transition-colors"
-                                OnDelete={() => console.log('Delete', item.id)}
+                                OnDelete={onDelete}
                             >
                                 <div className="grid grid-cols-2">
                                     <div className="flex p-0 items-center gap-10">

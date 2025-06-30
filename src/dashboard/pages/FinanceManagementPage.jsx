@@ -14,7 +14,6 @@ export default function FinanceManagementPage() {
 
   const navigate = useNavigate();
 
-  // Renamed variables to avoid conflict
   const {
     loading: loadingAnalytics,
     resetStatus: resetAnalyticsStatus,
@@ -83,18 +82,20 @@ export default function FinanceManagementPage() {
           />
         </section>
 
-        <section className='w-full'>
+        {insightData?.feedbackMessage && (
+          <section className='w-full'>
           <div className='bg-white shadow-md rounded-lg p-6 mt-10'>
             <h2 className="text-xl font-bold text-blue-900 my-5 text-center">
-              Versi terbaik dari dirimu sedang kamu bangun hari ini.
+             { insightData?.feedbackMessage?.title}
             </h2>
             <p className="text-md font-medium text-blue-900/60 px-10 leading-relaxed">
-              Kamu mungkin belum sampai tujuan, tapi kamu sudah jauh dari titik awal. Kamu sedang belajar mengatur hidup dan keuangan—dan itu adalah sebuah pencapaian. Setiap langkah kecil yang kamu ambil hari ini akan membawa perubahan besar di masa depan.
+              { insightData?.feedbackMessage?.message}
               <br /><br />
-              Teruslah konsisten, karena kedisiplinan hari ini adalah kebebasan esok hari.
+              { insightData?.feedbackMessage?.summary}
             </p>
           </div>
         </section>
+        )}
 
         <section className='bg-white px-6 py-5 mt-6 shadow-md rounded-2xl w-full mx-auto'>
           <h1 className="text-2xl text-center font-bold text-blue-900/70 mb-4">Pengeluaran hari ini</h1>
