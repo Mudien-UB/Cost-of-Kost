@@ -25,26 +25,27 @@ export default function FinanceManagementPage() {
     loading: loadingFinance,
     errorMessage: financeError,
     resetStatus: resetFinanceStatus,
-    getListExpense
+    getListExpense,
+    deleteExpense
   } = useFinance();
 
-  useEffect(() => {
-    const getExpense = async () => {
-      try {
-        const expensesData = await getListExpense({
-          from: new Date().toISOString().split('T')[0],
-          to: new Date().toISOString().split('T')[0]
-        });
-        if (expensesData) {
-          setListExpenses(expensesData.content);
-        }
-      } catch (err) {
-        console.log(err)
-        setError(err)
-      } finally {
-        resetFinanceStatus();
+  const getExpense = async () => {
+    try {
+      const expensesData = await getListExpense({
+        from: new Date().toISOString().split('T')[0],
+        to: new Date().toISOString().split('T')[0]
+      });
+      if (expensesData) {
+        setListExpenses(expensesData.content);
       }
-    };
+    } catch (err) {
+      console.log(err)
+      setError(err)
+    } finally {
+      resetFinanceStatus();
+    }
+  };
+  useEffect(() => {
     getExpense();
   }, []);
 
@@ -65,6 +66,18 @@ export default function FinanceManagementPage() {
     };
     getInsightData();
   }, []);
+
+const handleDelete = async (id) => {
+  console.log("handle delete dipanggil " + id)
+  try {
+    await deleteExpense(id);
+  } catch (err) {
+    console.log(err);
+  } finally {
+    resetFinanceStatus();
+    getExpense();
+  }
+}
 
 
   return (
@@ -105,9 +118,10 @@ export default function FinanceManagementPage() {
                 {listExpenses.map((item, index) => (
                   <ListContainer
                     key={item.id}
+                    id={item.id}
                     index={index + 1}
                     className="border-b border-blue-100 hover:bg-blue-50 transition-colors"
-                    OnDelete={() => console.log('Delete', item.id)}
+                    OnDelete={handleDelete}
                   >
                     <div className="grid grid-cols-2">
                       <div className="flex p-0 items-center gap-10">

@@ -6,6 +6,18 @@ const financialInsight = () => {
                         .catch(err => {throw err});
 }
 
+const granularity = ({to, from, granularity}) => {
+    const params = new URLSearchParams();
+    if(to) params.append('to', to);
+    if(from) params.append('from', from);
+    if(granularity) params.append('granularity', granularity);
+    console.log(params)
+    return axiosInstance.get('/analytics/granularity', {params})
+                        .then(res => res.data)
+                        .catch(err => {throw err})
+}
+
 export const analyticsApi = {
-    financialInsight
+    financialInsight,
+    granularity
 };

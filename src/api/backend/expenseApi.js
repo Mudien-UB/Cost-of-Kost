@@ -58,8 +58,8 @@ const getCategoryExpense = () => {
                       .catch(err => {throw err})
 }
 
-const deleteExpense = ({id}) => {
-  return axiosInstance.delete("/expense/" + {id})
+const deleteExpense = (id) => {
+  return axiosInstance.delete("/expense/" + id)
                       .then(res => res)
                       .catch(err => {throw err})
 }

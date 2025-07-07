@@ -25,11 +25,26 @@ export default function useAnalytics() {
         }
     },[]);
 
+    const getExpenseOnRangeWithGranularity = useCallback(async ({to, from, granularity}) => {
+        try{
+            setLoading(true)
+            const res = await analyticsApi.granularity({to, from, granularity});
+            setStatus('success');
+            return res.data;
+        }catch(err){
+            setStatus('error')
+            throw err;
+        }finally{
+            setLoading(false);
+        }
+    },[]);
+
 
     return {
         loading,
         status,
         getFinancialInsight,
+        getExpenseOnRangeWithGranularity,
         resetStatus,
 
     }
