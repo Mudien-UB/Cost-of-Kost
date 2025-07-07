@@ -20,8 +20,7 @@ export default function SideBar({ toggleSidebar }) {
           { route: '/recording', name: 'Pencatatan Keuangan'},
           { route: '/finance-management', name: 'Manajemen Keuangan' },
           { route: '/finance-history', name: 'Histori Keuangan'  },
-          // { route: '/goal-saving', name: 'Target Tabungan' },
-          // { route: '/expenses-reminder', name: 'Pengingat Pengeluaran Rutin' },
+          { route: '/analytics', name: 'Analisis Keuangan'},
       ]
 
   const baseRoutes = [

@@ -106,7 +106,7 @@ export default function useFinance() {
 
     }, []);
 
-    const deleteExpense = useCallback(async ({id}) => {
+    const deleteExpense = useCallback(async (id) => {
         try{
             setLoading(true)
             const res = await expenseApi.deleteExpense(id);
@@ -118,7 +118,7 @@ export default function useFinance() {
             setLoading(false)
         }
     })
-    const deleteIncome = useCallback(async ({id}) => {
+    const deleteIncome = useCallback(async (id) => {
         try{
             setLoading(true)
             const res = await incomeApi.deleteIncome(id);

@@ -6,6 +6,7 @@ import ExpensesReminderPage from './pages/ExpensesReminderPage';
 import FinanceRecordingPage from './pages/FinanceRecordingPage';
 import { useAuth } from '../authentication/hooks/useAuth';
 import FinanceHistoryPage from './pages/FinanceHistoryPage';
+import AnalyticsFinancePage from './pages/AnalyticsFinancePage';
 
 export default function DashboardApp() {
   const { whoAmI, resetStatus } = useAuth();
@@ -42,8 +43,7 @@ export default function DashboardApp() {
     { path: 'recording', element: <FinanceRecordingPage /> },
     { path: '/finance-management', element: <FinanceManagementPage /> },
     { path: '/finance-history', element: <FinanceHistoryPage /> },
-    // { path: '/goal-saving', element: <SavingTargetPage /> },
-    // { path: '/expenses-reminder', element: <ExpensesReminderPage /> },
+    { path: '/analytics', element: <AnalyticsFinancePage />}
   ];
 
   const similarRoute = [

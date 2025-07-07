@@ -121,10 +121,10 @@ export default function FinanceHistoryPage() {
       if (activeTab === 'expense') {
         res = await deleteExpense(id)
         console.log(res)
-      }else if(activeTab === 'income'){
+      } else if (activeTab === 'income') {
         res = await deleteIncome(id)
         console.log(res)
-      }else {
+      } else {
         res = '';
         console.log("invalid")
       }
@@ -132,6 +132,11 @@ export default function FinanceHistoryPage() {
       console.log(err)
     } finally {
       resetStatus()
+      if (activeTab === "expense") {
+        fetchExpensesData();
+      } else {
+        fetchIncomesData();
+      }
     }
   }
 
