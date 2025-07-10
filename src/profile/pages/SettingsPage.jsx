@@ -24,7 +24,7 @@ export default function SettingsPage() {
   };
 
   const settings = [
-    { label: 'Profile', type: 'profile' },
+    { label: 'Data akun', type: 'profile' },
     { label: 'Terms of Service', type: 'terms' },
     { label: 'Privacy Policy', type: 'privacy' },
   ];
@@ -39,7 +39,7 @@ export default function SettingsPage() {
           <FaLeftLong className="text-xl" />
         </button>
         <h1 className="text-2xl font-bold text-blue-900 px-6 py-2 border-b border-blue-100">
-          Settings
+          Pengaturan
         </h1>
         <ul className="divide-y divide-blue-100">
           {settings.map((item, index) => (

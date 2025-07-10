@@ -23,6 +23,12 @@ export default function FormIncome() {
     const { name, value } = e.target;
     setIncomeData((prev) => ({ ...prev, [name]: value }));
   };
+  const  handleAmountChange = (e) => {
+    const raw = e.target.value.replace(/\D/g, '');
+    setIncomeData({
+      ...incomeData, amount: raw
+    });
+  }
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -118,10 +124,10 @@ export default function FormIncome() {
         <FormField
           label="Jumlah (Rp)"
           name="amount"
-          type="number"
-          placeholder="Contoh: 50000"
+          as="rupiah"
+          placeholder="Contoh: 50.000"
           value={incomeData.amount}
-          onChange={handleChange}
+          onChange={handleAmountChange}
           textColour='text-green-800'
         />
 
