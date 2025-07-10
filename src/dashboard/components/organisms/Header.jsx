@@ -18,10 +18,10 @@ export default function Header() {
   };
 
   const handleUserClick = () => {
-    alert(`Pengguna saat ini: ${user?.username || "Tidak diketahui"}`);
+    navigate('/profile')
   };
   const handleSettingsClick = () => {
-    alert(`Settings`);
+    navigate('/profile/settings')
   }
 
   const handleLogOut = async () => {

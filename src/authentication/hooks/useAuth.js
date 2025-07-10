@@ -67,14 +67,11 @@ export const useAuth = () => {
   const whoAmI = useCallback(async () => {
     try {
       const response = await authApi.whoAmI();
-      const {userId, username} = response.data.data;
-      
-      console.log(username);
-
-      dispatch(loginAction({ 
-        userId: userId, 
+      const {username} = response.data.data;
+      dispatch(loginAction({
         username: username
       }));
+      return response?.data?.data;
     } catch (error) {
       console.error("whoAmI failed:", error);
       throw error;
