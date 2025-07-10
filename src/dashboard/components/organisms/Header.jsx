@@ -5,6 +5,7 @@ import { LuLogOut } from 'react-icons/lu';
 import { useNavigate } from 'react-router';
 import { useAuth } from '../../../authentication/hooks/useAuth';
 import { useSelector } from 'react-redux';
+import { MdSettings } from 'react-icons/md';
 
 export default function Header() {
   const navigate = useNavigate();
@@ -19,6 +20,9 @@ export default function Header() {
   const handleUserClick = () => {
     alert(`Pengguna saat ini: ${user?.username || "Tidak diketahui"}`);
   };
+  const handleSettingsClick = () => {
+    alert(`Settings`);
+  }
 
   const handleLogOut = async () => {
     await logout();
@@ -34,10 +38,9 @@ export default function Header() {
         {user?.username || "Pengguna"}
       </h1>
       <div className="flex gap-6 items-center">
-        <CgDarkMode className="text-3xl text-blue-900/50 cursor-pointer" />
-        <BiBell className="text-3xl text-blue-900/50 cursor-pointer" onClick={handleUserClick} />
-        <BiUserCircle className="text-3xl text-blue-900/50 cursor-pointer" onClick={handleUserClick} />
-        <LuLogOut className="text-3xl text-red-700/60 cursor-pointer" onClick={handleLogOut} />
+        <MdSettings className="text-3xl text-blue-900/50 cursor-pointer" onClick={handleSettingsClick} title='pengaturan' />
+        <BiUserCircle className="text-3xl text-blue-900/50 cursor-pointer" onClick={handleUserClick} title={`${user?.username}`} />
+        <LuLogOut className="text-3xl text-red-700/60 cursor-pointer" onClick={handleLogOut} title='keluar' />
       </div>
     </header>
   );

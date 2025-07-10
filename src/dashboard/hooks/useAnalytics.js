@@ -39,12 +39,27 @@ export default function useAnalytics() {
         }
     },[]);
 
+    const getTotalPerCategory = useCallback(async ({monthAt}) => {
+        try {
+            setLoading(true);
+            const res = await analyticsApi.totalCategory({monthAt});
+            setStatus('success');
+            return res.data;
+
+        } catch (error) {
+            setStatus('error')
+            throw error;
+        }finally{
+            setLoading(false);
+        }
+    },[])
 
     return {
         loading,
         status,
         getFinancialInsight,
         getExpenseOnRangeWithGranularity,
+        getTotalPerCategory,
         resetStatus,
 
     }
