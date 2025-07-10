@@ -17,7 +17,17 @@ const granularity = ({to, from, granularity}) => {
                         .catch(err => {throw err})
 }
 
+const totalCategory = ({monthAt}) => {
+    const params = new URLSearchParams();
+    if(monthAt) params.append('monthAt', monthAt);
+
+    return axiosInstance.get('/analytics/totalExpensePerCategory', {params})
+                        .then(res => res.data)
+                        .catch(err => {throw err});
+}
+
 export const analyticsApi = {
     financialInsight,
-    granularity
+    granularity,
+    totalCategory
 };

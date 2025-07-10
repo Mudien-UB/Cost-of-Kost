@@ -25,16 +25,6 @@ export default function SideBar({ toggleSidebar }) {
 
   const baseRoutes = [
     {
-      route: '/dashboard/settings',
-      name: 'Settings',
-      icon: <MdSettings className="text-2xl" />
-    },
-    {
-      route: '/dashboard/help',
-      name: 'Help',
-      icon: <MdHelpOutline className="text-2xl" />
-    },
-    {
       route: '/dashboard/report',
       name: 'Report',
       icon: <MdOutlineReportProblem className="text-2xl" />
