@@ -111,9 +111,13 @@ export default function FormRegister({ onSubmit, loading }) {
               className="mr-2"
             />
             <label htmlFor="terms" className="text-sm text-gray-600">
-              I agree to the{' '}
-              <a href="/terms" className="text-blue-500 hover:text-blue-700">
-                Terms and Conditions
+              I agree to the&nbsp;
+              <a href="/terms-of-service" className="text-blue-500 hover:text-blue-700">
+                Terms of Service
+              </a>
+              &nbsp;and&nbsp;
+              <a href="/privacy-policy" className="text-blue-500 hover:text-blue-700">
+                Privacy Policy
               </a>
             </label>
           </div>

@@ -1,64 +1,30 @@
-import React, { useEffect, useState } from 'react';
+// src/dashboard/DashboardApp.jsx
+import React from 'react';
 import { Navigate, Route, Routes, useNavigate } from 'react-router';
 import FinanceManagementPage from './pages/FinanceManagementPage';
-import SavingTargetPage from './pages/SavingTargetPage';
-import ExpensesReminderPage from './pages/ExpensesReminderPage';
 import FinanceRecordingPage from './pages/FinanceRecordingPage';
-import { useAuth } from '../authentication/hooks/useAuth';
 import FinanceHistoryPage from './pages/FinanceHistoryPage';
 import AnalyticsFinancePage from './pages/AnalyticsFinancePage';
+import { useSelector } from 'react-redux';
 
 export default function DashboardApp() {
-  const { whoAmI, resetStatus } = useAuth();
+
+  const user = useSelector(state => state.Auth);
   const navigate = useNavigate();
-  const [authChecked, setAuthChecked] = useState(false);
 
-  useEffect(() => {
-    const checkAuth = async () => {
-      try {
-        const token = localStorage.getItem('token'); // ambil token langsung
-        if (!token) {
-          navigate('/auth/login');
-          return;
-        }
-
-        await whoAmI(); // jika error, akan masuk catch
-        setAuthChecked(true);
-      } catch {
-        console.log("false berjalan")
-        navigate('/auth/login');
-        setAuthChecked(false);
-      } finally {
-        resetStatus();
-      }
-    };
-
-    checkAuth();
-  }, []);
-
-  if (!authChecked) return <div>Loading...</div>;
-
-  const route = [
-    { path: '/', element: <Navigate to="/dashboard/recording" /> },
-    { path: 'recording', element: <FinanceRecordingPage /> },
-    { path: '/finance-management', element: <FinanceManagementPage /> },
-    { path: '/finance-history', element: <FinanceHistoryPage /> },
-    { path: '/analytics', element: <AnalyticsFinancePage />}
-  ];
-
-  const similarRoute = [
-    { path: '/home', redirectTo: <Navigate to="/dashboard/finance-management" /> },
-    { path: '*', redirectTo: <Navigate to="/dashboard/finance-management" /> },
-  ];
+  if(!user){
+    navigate('/auth/login');
+    return;
+  }
 
   return (
     <Routes>
-      {route.map((item, index) => (
-        <Route key={index} path={item.path} element={item.element} />
-      ))}
-      {similarRoute.map((item, index) => (
-        <Route key={index} path={item.path} element={item.redirectTo} />
-      ))}
+      <Route path="/" element={<Navigate to="/dashboard/recording" />} />
+      <Route path="recording" element={<FinanceRecordingPage />} />
+      <Route path="/finance-management" element={<FinanceManagementPage />} />
+      <Route path="/finance-history" element={<FinanceHistoryPage />} />
+      <Route path="/analytics" element={<AnalyticsFinancePage />} />
+      <Route path="*" element={<Navigate to="/dashboard/finance-management" />} />
     </Routes>
   );
 }
