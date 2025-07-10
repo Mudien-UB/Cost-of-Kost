@@ -22,7 +22,7 @@ export default function ProfileApp() {
           <Route key={index} path={item.path} element={item.element} />
         ))}
         
-        <Route path="*" element={<NotFoundPage navigate={"/"} />} />
+        <Route path="*" element={<NotFoundPage />} />
 
       </Routes>
     

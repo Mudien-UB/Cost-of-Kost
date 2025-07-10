@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import Header from '../components/organisms/Header';
-import Footer from '../components/organisms/Footer';
 import SideBar from '../components/organisms/SideBar';
 
 export default function DashboardLayout({ children ,className}) {
@@ -22,8 +21,6 @@ export default function DashboardLayout({ children ,className}) {
             {children}
           </main>
       </div>
-          <Footer />
-        
     </div>
   );
 }

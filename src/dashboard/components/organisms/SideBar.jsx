@@ -17,11 +17,11 @@ export default function SideBar({ toggleSidebar }) {
   };
 
   const dashboardRoutes = [
-          { route: '/recording', name: 'Pencatatan Keuangan'},
-          { route: '/finance-management', name: 'Manajemen Keuangan' },
-          { route: '/finance-history', name: 'Histori Keuangan'  },
-          { route: '/analytics', name: 'Analisis Keuangan'},
-      ]
+    { route: '/recording', name: 'Pencatatan Keuangan' },
+    { route: '/finance-management', name: 'Manajemen Keuangan' },
+    { route: '/finance-history', name: 'Histori Keuangan' },
+    { route: '/analytics', name: 'Analisis Keuangan' },
+  ]
 
   const baseRoutes = [
     {
@@ -40,7 +40,7 @@ export default function SideBar({ toggleSidebar }) {
       <nav className="sticky top-16 h-[calc(100vh-4rem)] flex flex-col">
         <div className="flex items-center justify-end p-4 transition-all duration-500 ease-in-out transform">
           <h1 className={`text-2xl font-bold justify-self-start mr-5 ${isOpen ? 'block' : 'hidden'}`}>Dashboard</h1>
-          <button 
+          <button
             onClick={handleToggleSidebar}
             className={`p-2 rounded-lg hover:bg-blue-700 transition-all transform ease-in-out duration-1000`}
           >
@@ -50,21 +50,13 @@ export default function SideBar({ toggleSidebar }) {
 
         <div className='h-full flex flex-col justify-between'>
 
-        <Navigation isOpen={isOpen} routes={dashboardRoutes} />
-        <ul className="mt-4 ">
-          {baseRoutes.map((route, index) => (
-            <li key={index} className="mb-4 flex justify-start">
-              <NavLink
-                to={route.route}
-                className={`flex items-center p-2 rounded-lg hover:bg-blue-700 transition-colors duration-300 ${isOpen ? 'justify-start' : 'justify-center'
-                  }`}
-              >
-                {route.icon}
-                {isOpen && <span className="ml-2">{route.name}</span>}
-              </NavLink>
-            </li>
-          ))}
-        </ul>
+          <Navigation isOpen={isOpen} routes={dashboardRoutes} />
+
+          {isOpen && (
+            <div className='flex my-5'>
+              <p className="text-blue-200/50 text-sm text-center font-medium">© 2023 Your Company. All rights reserved.</p>
+          </div>
+          )}
         </div>
       </nav>
     </aside>

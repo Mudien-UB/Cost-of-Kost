@@ -6,11 +6,15 @@ import { useNavigate } from 'react-router';
 import ListContainer from '../components/molecules/ListContainer';
 import { BiChevronsRight } from 'react-icons/bi';
 import useAnalytics from '../hooks/useAnalytics';
+import ConfirmDelete from '../components/molecules/ConfirmDelete';
 
 export default function FinanceManagementPage() {
   const [error, setError] = useState(null);
   const [listExpenses, setListExpenses] = useState([]);
   const [insightData, setInsightData] = useState(null);
+
+  const [openConfirmDelete, setOpenConfirmDelete] = useState(false);
+  const [selectedIdDelete, setSelectedIdDelete] = useState(null);
 
   const navigate = useNavigate();
 
@@ -33,7 +37,9 @@ export default function FinanceManagementPage() {
     try {
       const expensesData = await getListExpense({
         from: new Date().toISOString().split('T')[0],
-        to: new Date().toISOString().split('T')[0]
+        to: new Date().toISOString().split('T')[0],
+        sortBy: "create_time",
+        asc: false,
       });
       if (expensesData) {
         setListExpenses(expensesData.content);
@@ -68,12 +74,19 @@ export default function FinanceManagementPage() {
   }, []);
 
 const handleDelete = async (id) => {
-  console.log("handle delete dipanggil " + id)
-  try {
-    await deleteExpense(id);
-  } catch (err) {
-    console.log(err);
-  } finally {
+  setSelectedIdDelete(id);
+  setOpenConfirmDelete(true);
+}
+
+const doDelete = async () => {
+  if(!selectedIdDelete) return;
+  try{
+    await deleteExpense(selectedIdDelete);
+  }catch (err){
+    console.error(err);
+  }finally{
+    setOpenConfirmDelete(false);
+    setSelectedIdDelete(null);
     resetFinanceStatus();
     getExpense();
   }
@@ -155,6 +168,12 @@ const handleDelete = async (id) => {
               </div>
             )}
           </div>
+
+          <ConfirmDelete
+                    open={openConfirmDelete}
+                    onClose={() => setOpenConfirmDelete(false)}
+                    onConfirm={doDelete}
+                  />
         </section>
 
       </div>

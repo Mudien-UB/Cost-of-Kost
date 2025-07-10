@@ -24,6 +24,14 @@ export default function FormExpence() {
     setExpenseData((prev) => ({ ...prev, [name]: value }));
   };
 
+  const  handleAmountChange = (e) => {
+    const raw = e.target.value.replace(/\D/g, '');
+    setExpenseData({
+      ...expenseData, amount: raw
+    });
+  }
+
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -68,38 +76,38 @@ export default function FormExpence() {
     });
   };
 
- useEffect(() => {
-  const fetchCategories = async () => {
-    try {
-      const res = await getCategoryExpense();
-      const backendCategories = res.map(cat => cat.name.toLowerCase()) || [];
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const res = await getCategoryExpense();
+        const backendCategories = res.map(cat => cat.name.toLowerCase()) || [];
 
-      let combined = [...backendCategories];
+        let combined = [...backendCategories];
 
-      if (combined.length < 4) {
-        const needed = defaultCategories.filter(
-          (cat) => cat !== 'lainnya' && !combined.includes(cat)
-        );
+        if (combined.length < 4) {
+          const needed = defaultCategories.filter(
+            (cat) => cat !== 'lainnya' && !combined.includes(cat)
+          );
 
-        const fillCount = 4 - combined.length;
-        combined = [...combined, ...needed.slice(0, fillCount)];
+          const fillCount = 4 - combined.length;
+          combined = [...combined, ...needed.slice(0, fillCount)];
+        }
+
+        if (!combined.includes('lainnya')) {
+          combined.push('lainnya');
+        }
+
+        setCategoryDisplay(combined);
+      } catch (err) {
+        console.error(err);
+        setCategoryDisplay(defaultCategories); // fallback
+      } finally {
+        resetStatus();
       }
+    };
 
-      if (!combined.includes('lainnya')) {
-        combined.push('lainnya');
-      }
-
-      setCategoryDisplay(combined);
-    } catch (err) {
-      console.error(err);
-      setCategoryDisplay(defaultCategories); // fallback
-    } finally {
-      resetStatus();
-    }
-  };
-
-  fetchCategories();
-}, []);
+    fetchCategories();
+  }, []);
 
 
   return (
@@ -119,10 +127,10 @@ export default function FormExpence() {
         <FormField
           label="Jumlah (Rp)"
           name="amount"
-          type="number"
-          placeholder="Contoh: 50000"
+          as="rupiah"
+          placeholder="Contoh: 50.000"
           value={expenseData.amount}
-          onChange={handleChange}
+          onChange={handleAmountChange}
         />
 
         <FormField

@@ -4,18 +4,18 @@ import useFinance from "../hooks/useFinance";
 import TransactionHistories from "../components/organisms/TransactionHistories";
 import MiniNav from "../components/molecules/MiniNav";
 import PaginationNav from "../components/molecules/PaginationNav";
-import { GrAscending } from "react-icons/gr";
 import { PiSortAscendingBold } from "react-icons/pi";
 import FilterIntervalDate from "../components/molecules/FilterIntervalDate";
+import ConfirmDelete from "../components/molecules/ConfirmDelete";
 
 export default function FinanceHistoryPage() {
   const [expensesData, setExpensesData] = useState([]);
   const [incomesData, setIncomesData] = useState([]);
-
   const [expenseError, setExpenseError] = useState(null);
   const [incomeError, setIncomeError] = useState(null);
-
   const [activeTab, setActiveTab] = useState("expense");
+  const [openConfirm, setOpenConfirm] = useState(false);
+  const [selectedId, setSelectedId] = useState(null);
 
   const [pagination, setPagination] = useState({
     page: 1,
@@ -29,17 +29,17 @@ export default function FinanceHistoryPage() {
     sortBy: null,
     page: 1,
     size: 5,
-    asc: true,
+    asc: false,
   });
 
   const resetParam = () => {
     setRequestParam({
       from: null,
       to: null,
-      sortBy: null,
       page: 1,
       size: 5,
-      asc: true,
+      sortBy: null,
+      asc: false,
     });
   };
 
@@ -87,8 +87,8 @@ export default function FinanceHistoryPage() {
       resetStatus();
     }
   };
-  useEffect(() => {
 
+  useEffect(() => {
     if (activeTab === "expense") {
       fetchExpensesData();
     } else {
@@ -98,61 +98,49 @@ export default function FinanceHistoryPage() {
 
   const handleNextPage = () => {
     if (pagination.page < pagination.totalPage) {
-      setRequestParam((prev) => ({
-        ...prev,
-        page: prev.page + 1,
-      }));
+      setRequestParam((prev) => ({ ...prev, page: prev.page + 1 }));
     }
   };
 
   const handlePrevPage = () => {
     if (pagination.page > 1) {
-      setRequestParam((prev) => ({
-        ...prev,
-        page: prev.page - 1,
-      }));
+      setRequestParam((prev) => ({ ...prev, page: prev.page - 1 }));
     }
   };
 
-  const handleDelete = async (id) => {
-    console.log("handle delete dipanggil " + id)
+  const handleDelete = (id) => {
+    setSelectedId(id);
+    setOpenConfirm(true);
+  };
+
+  const doDelete = async () => {
+    if (!selectedId) return;
+
     try {
-      let res = '';
       if (activeTab === 'expense') {
-        res = await deleteExpense(id)
-        console.log(res)
+        await deleteExpense(selectedId);
       } else if (activeTab === 'income') {
-        res = await deleteIncome(id)
-        console.log(res)
-      } else {
-        res = '';
-        console.log("invalid")
+        await deleteIncome(selectedId);
       }
     } catch (err) {
-      console.log(err)
+      console.error(err);
     } finally {
-      resetStatus()
+      setOpenConfirm(false);
+      setSelectedId(null);
+      resetStatus();
       if (activeTab === "expense") {
         fetchExpensesData();
       } else {
         fetchIncomesData();
       }
     }
-  }
+  };
 
   const sortirOption = [
-    {
-      value: "default",
-      title: "default"
-    },
-    {
-      value: "amount",
-      title: "jumlah",
-    }, {
-      value: "create_time",
-      title: "tanggal catat"
-    }
-  ]
+    { value: "default", title: "default" },
+    { value: "amount", title: "jumlah" },
+    { value: "create_time", title: "tanggal catat" },
+  ];
 
   return (
     <DashboardLayout className="pt-14 min-h-screen">
@@ -164,24 +152,18 @@ export default function FinanceHistoryPage() {
           ]}
           onClick={(val) => {
             setActiveTab(val);
-            setRequestParam((prev) => ({
-              ...prev,
-              page: 1,
-            }));
+            setRequestParam((prev) => ({ ...prev, page: 1 }));
           }}
           isActive={activeTab}
         />
+
         <div className="w-full px-10 py-4 bg-white shadow-md rounded-xl flex items-center justify-between flex-wrap gap-4">
           <div className="flex items-center gap-4">
             <select
               value={requestParam.sortBy || ""}
               onChange={(e) => {
                 const value = e.target.value === "default" ? null : e.target.value;
-                setRequestParam((prev) => ({
-                  ...prev,
-                  sortBy: value,
-                  page: 1,
-                }));
+                setRequestParam((prev) => ({ ...prev, sortBy: value, page: 1 }));
               }}
               className="px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
             >
@@ -206,7 +188,9 @@ export default function FinanceHistoryPage() {
                 className="hidden"
               />
               <span className="p-2 rounded hover:bg-gray-100 border border-gray-300">
-                <PiSortAscendingBold className={`text-2xl transition-transform duration-300 ${requestParam.asc ? "rotate-0" : "rotate-180"}`} />
+                <PiSortAscendingBold
+                  className={`text-2xl transition-transform duration-300 ${requestParam.asc ? "rotate-0" : "rotate-180"}`}
+                />
               </span>
             </label>
           </div>
@@ -225,8 +209,6 @@ export default function FinanceHistoryPage() {
               }
             />
             {requestParam.from && (
-
-
               <button
                 type="button"
                 onClick={() => resetParam()}
@@ -234,11 +216,9 @@ export default function FinanceHistoryPage() {
               >
                 Reset
               </button>
-            )
-            }
+            )}
           </div>
         </div>
-
 
         {activeTab === "expense" && expenseError && (
           <p className="text-red-500 mb-2">{expenseError}</p>
@@ -259,6 +239,12 @@ export default function FinanceHistoryPage() {
           totalPage={pagination.totalPage}
           onNext={handleNextPage}
           onPrev={handlePrevPage}
+        />
+
+        <ConfirmDelete
+          open={openConfirm}
+          onClose={() => setOpenConfirm(false)}
+          onConfirm={doDelete}
         />
       </section>
     </DashboardLayout>

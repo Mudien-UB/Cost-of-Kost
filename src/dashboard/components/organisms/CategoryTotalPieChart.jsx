@@ -54,6 +54,8 @@ export default function CategoryTotalPieChart({ monthAt }) {
           data: chartData,
           arcLabel: (item) =>
             `${item.label} (${new Intl.NumberFormat('id-ID', { notation: 'compact', compactDisplay: 'short' }).format(item.value)})`,
+          arcLabelMinAngle: 35,
+          arcLabelRadius: '60%',
         },
       ]}
       width={600}

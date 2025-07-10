@@ -66,7 +66,7 @@ export default function UserProfilePage() {
             alt="Profile"
             className="w-32 h-32 rounded-full border-4 border-blue-300 shadow-md mb-4"
           />
-          <h1 className="text-2xl font-bold text-blue-900">User Profile</h1>
+          <h1 className="text-2xl font-bold text-blue-900">{formData.fullname}</h1>
         </div>
 
         <div className="space-y-4">
@@ -123,7 +123,7 @@ export default function UserProfilePage() {
                 onClick={() => setIsEditing(true)}
                 className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition"
               >
-                Edit Profile
+                Ubah data
               </button>
             </>
           ) : (
@@ -132,13 +132,13 @@ export default function UserProfilePage() {
                 onClick={handleSave}
                 className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition"
               >
-                Save
+                Simpan
               </button>
               <button
                 onClick={handleCancel}
                 className="border border-blue-500 text-blue-500 px-4 py-2 rounded-lg hover:bg-blue-50 transition"
               >
-                Cancel
+                Batal
               </button>
             </>
           )}
@@ -146,12 +146,18 @@ export default function UserProfilePage() {
 
       </div>
 
-      <div className='w-full max-w-xl bg-white rounded-2xl shadow-xl shadow-blue-950/20 p-6 sm:p-8 border border-blue-100'>
+      <div className='w-full max-w-xl bg-white flex flex-col gap-5 rounded-2xl shadow-xl shadow-blue-950/20 p-6 sm:p-8 border border-blue-100'>
         <button
                 onClick={() => navigate('/change-password')}
-                className="w-full border-2 border-red-600 text-red-800 font-medium px-4 py-2 rounded-lg hover:bg-red-100 transition"
+                className="w-full border-2 border-blue-800/50 text-blue-900/50 font-medium px-4 py-2 rounded-lg hover:bg-blue-100/50 transition"
               >
-                Change Password
+                Ubah kata sandi
+              </button>
+              <button
+                onClick={() => navigate('/delete-account')}
+                className="w-full border-2 text-red-100 bg-red-800 font-medium px-4 py-2 rounded-lg hover:bg-red-500 transition"
+              >
+               Hapus Akun
               </button>
       </div>
     </section>

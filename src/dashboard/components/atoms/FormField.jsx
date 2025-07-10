@@ -1,4 +1,3 @@
-// components/atoms/FormField.jsx
 import React from 'react';
 
 export default function FormField({
@@ -11,10 +10,17 @@ export default function FormField({
   as = 'input',
   options = [],
   disabled = false,
-  textColour='text-blue-900/70',
+  textColour = 'text-blue-900/70',
   ...props
 }) {
-  const commonClass = "mt-2 block w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-800/60" + textColour;
+  const baseInputClass =
+    "block w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-800/60 " + textColour;
+
+  // formatter untuk angka ke ribuan
+  function formatToRupiah(num) {
+    if (!num) return '';
+    return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+  }
 
   return (
     <label className="block">
@@ -26,7 +32,8 @@ export default function FormField({
           value={value}
           onChange={onChange}
           placeholder={placeholder}
-          className={commonClass}
+          className={"mt-2 " + baseInputClass}
+          disabled={disabled}
           {...props}
         />
       ) : as === 'select' ? (
@@ -34,7 +41,7 @@ export default function FormField({
           name={name}
           value={value}
           onChange={onChange}
-          className={commonClass}
+          className={"mt-2 " + baseInputClass}
           disabled={disabled}
         >
           <option value="" disabled>Pilih kategori</option>
@@ -42,6 +49,19 @@ export default function FormField({
             <option key={idx} value={opt}>{opt}</option>
           ))}
         </select>
+      ) : as === 'rupiah' ? (
+        <div className="mt-2 relative flex items-center">
+          <input
+            type="text"
+            name={name}
+            value={formatToRupiah(value)}
+            onChange={onChange}
+            placeholder={placeholder}
+            className={baseInputClass}
+            disabled={disabled}
+            {...props}
+          />
+        </div>
       ) : (
         <input
           type={type}
@@ -49,7 +69,8 @@ export default function FormField({
           value={value}
           onChange={onChange}
           placeholder={placeholder}
-          className={commonClass}
+          className={"mt-2 " + baseInputClass}
+          disabled={disabled}
           {...props}
         />
       )}
