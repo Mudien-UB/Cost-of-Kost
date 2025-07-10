@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router'
 import { useAuth } from '../../authentication/hooks/useAuth'
 import { FaLeftLong } from 'react-icons/fa6'
+import GeneralLoading from '../../components/GeneralLoading'
 
 export default function UserProfilePage() {
   const [profile, setProfile] = useState(null)
@@ -45,9 +46,7 @@ export default function UserProfilePage() {
 
   if (!profile || !formData) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <p className="text-blue-900 text-xl font-medium">Loading...</p>
-      </div>
+      <GeneralLoading />
     )
   }
 

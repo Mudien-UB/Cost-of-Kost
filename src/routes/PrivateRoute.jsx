@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router';
 import { useSelector } from 'react-redux';
 import { useAuth } from '../authentication/hooks/useAuth';
+import GeneralLoading from '../components/GeneralLoading';
 
 export default function PrivateRoute({ children }) {
   const navigate = useNavigate();
@@ -33,7 +34,7 @@ export default function PrivateRoute({ children }) {
     checkAuth();
   }, [whoAmI, navigate, resetStatus]);
 
-  if (loading) return <div>Loading...</div>;
+  if (loading) return <GeneralLoading />;
 
   return children;
 }

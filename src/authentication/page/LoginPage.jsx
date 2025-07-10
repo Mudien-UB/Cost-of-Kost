@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import { useAuth } from "../hooks/useAuth";
 import FormLogin from "../components/FormLogin";
+import GeneralLoading from "../../components/GeneralLoading";
 
 export default function LoginPage() {
   const { login, status, errorMsg, resetStatus } = useAuth();
@@ -36,7 +37,7 @@ export default function LoginPage() {
         <FormLogin onSubmit={login} isLoading={status === "loading"} />
 
         {status === "loading" && (
-          <p className="text-sm text-gray-500 mt-4">Logging in...</p>
+          <GeneralLoading />
         )}
 
         {status === "error" && (
@@ -44,7 +45,7 @@ export default function LoginPage() {
         )}
 
         {status === "success" && (
-          <div className="fixed inset-0 z-10 flex items-center justify-center bg-white/40 backdrop-blur-md">
+          <div className="fixed inset-0 z-10 flex items-center min-w-screen h-screen justify-center bg-white/40 backdrop-blur-md">
             <div className="text-center px-10 py-6 bg-white rounded-lg shadow-md">
               <h1 className="text-4xl font-bold text-green-600 mb-2">
                 Login Success

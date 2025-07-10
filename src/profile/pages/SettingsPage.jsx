@@ -1,42 +1,43 @@
-import React from 'react'
+import React, { useState } from 'react';
 import { FaLeftLong } from 'react-icons/fa6';
-import { useNavigate } from 'react-router'
+import { useNavigate } from 'react-router';
+import ResumePopUp from '../../components/ResumePopUp';
 
 export default function SettingsPage() {
-
   const navigate = useNavigate();
 
+  // tombol menu
   const handleClick = (type) => {
     switch (type) {
       case 'profile':
-        navigate('/profile/')
-        break
+        navigate('/profile/');
+        break;
       case 'terms':
-        alert('Open Terms of Service')
-        break
+        navigate('/terms-of-service')
+        break;
       case 'privacy':
-        alert('Open Privacy Policy')
-        break
+        navigate('/privacy-policy')
+        break;
       default:
-        alert('Unknown action')
+        alert('Unknown action');
     }
-  }
+  };
 
   const settings = [
     { label: 'Profile', type: 'profile' },
     { label: 'Terms of Service', type: 'terms' },
     { label: 'Privacy Policy', type: 'privacy' },
-  ]
+  ];
 
   return (
     <section className="min-h-screen bg-gradient-to-b from-blue-50 to-white p-6 flex items-center justify-center">
       <div className="w-full max-w-md bg-white rounded-xl shadow-md border border-blue-100">
-        <button 
-                className='text-blue-50 px-4 py-2 m-5 rounded-lg bg-blue-900/80 transition'
-                onClick={() => window.history.back()}
-              >
-                <FaLeftLong className='text-xl' />
-              </button>
+        <button
+          className="text-blue-50 px-4 py-2 m-5 rounded-lg bg-blue-900/80 transition"
+          onClick={() => window.history.back()}
+        >
+          <FaLeftLong className="text-xl" />
+        </button>
         <h1 className="text-2xl font-bold text-blue-900 px-6 py-2 border-b border-blue-100">
           Settings
         </h1>
@@ -59,14 +60,12 @@ export default function SettingsPage() {
               </svg>
             </li>
           ))}
-          <li
-          className="p-5 cursor-pointer hover:bg-blue-50 transition flex justify-between items-center"
-          >
+          <li className="p-5 cursor-pointer hover:bg-blue-50 transition flex justify-between items-center">
             <span className="text-blue-900">Versi</span>
-            <p className="text-blue-800/50 font-medium">V1.1.1</p>
+            <p className="text-blue-800/50 font-medium">V1.1.FB-1</p>
           </li>
         </ul>
       </div>
     </section>
-  )
+  );
 }

@@ -69,7 +69,7 @@ export default function RegisterPage() {
         )}
 
         {status === 'success' && (
-          <div className="fixed inset-0 z-10 flex items-center justify-center bg-white/80 backdrop-blur-md">
+          <div className="fixed inset-0 z-10 flex items-center min-w-screen h-screen justify-center bg-white/80 backdrop-blur-md">
             <div className="text-center p-6 bg-white rounded-lg shadow-md">
               <h1 className="text-xl font-bold text-green-600 mb-2">Registration Success</h1>
               <p className="text-sm text-gray-600">You can now log in.</p>
