@@ -78,6 +78,22 @@ export const useAuth = () => {
     }
   }, [dispatch]);
 
+  const isEmailUsed = async (email) => {
+    try{
+      return await authApi.isEmailUsed(email);
+    }catch (err) {
+      return false;
+    }
+  }
+
+  const isUsernameUsed = async (username) => {
+    try{
+      return await authApi.isUsernameUsed(username);
+    }catch (err) {
+      return false;
+    }
+  }
+
   return {
     login,
     register,
@@ -86,5 +102,7 @@ export const useAuth = () => {
     errorMsg,
     resetStatus,
     whoAmI,
+    isEmailUsed,
+    isUsernameUsed
   };
 };

@@ -2,7 +2,7 @@ import axiosInstance from "../axiosInstance";
 
 const login = (username, password) => {
 
-    var request = {username : username, password: password}
+    var request = {usernameOrEmail : username, password: password}
 
     return axiosInstance.post('/auth/login', request)
         .then(response => response)
@@ -24,14 +24,28 @@ const register = (fullName, username, email, password) => {
         });
 };
 
-// const logout = () => {
-//     return axiosInstance.post('/users/logout')
-//         .then(response => response)
-//         .catch(error => {
-//             console.error('Logout error:', error?.message);
-//             throw error || new Error("Something Wrong");
-//         });
-// };
+const isEmailUsed = email =>
+    axiosInstance.get('/auth/is-email-used', { params: { email } })
+                .then(res => res?.data?.data)
+                .catch(err => {throw err});
+
+
+const isUsernameUsed = username =>
+    axiosInstance.get('/auth/is-username-used', { params: { username } })
+                .then(res => res?.data?.data)
+                .catch(err => {throw err});
+
+
+
+const changePassword = (email, newPassword) => {
+    var request = {
+        usernameOrEmail: email,
+        password: newPassword
+    }
+    return axiosInstance.put('/auth/change-password', request)
+        .then(response => response)
+        .catch(error => {throw error});
+}
 
     const logout = () => {
         return setTimeout(() => {},[1000])
@@ -52,5 +66,7 @@ export const authApi = {
     login,
     register,
     logout,
-    whoAmI
+    whoAmI,
+    isEmailUsed,
+    isUsernameUsed
 };
