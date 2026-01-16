@@ -1,7 +1,5 @@
 # 🏠 EduSims: Cost of Kost
 
-![Status](https://img.shields.io/badge/status-development-orange)
-![License](https://img.shields.io/badge/license-academic--project-lightgrey)
 
 **EduSims** adalah aplikasi web interaktif yang dirancang untuk membantu mahasiswa dan pencari kost dalam merencanakan pengeluaran bulanan secara edukatif, sederhana, dan menyenangkan.
 
@@ -42,7 +40,3 @@ npm install
 
 npm run dev
 ```
-
-## 📜 Disclaimer
-> ⚠️ Proyek ini merupakan tugas kelompok dalam rangka perkuliahan.
-> Tidak diperkenankan menggunakan, memodifikasi, atau mendistribusikan ulang tanpa izin dari semua anggota tim yang bersangkutan.
